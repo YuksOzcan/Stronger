@@ -22,7 +22,9 @@ class InsertionActivity : AppCompatActivity() {
         etName =findViewById(R.id.edit_name)
         btnSave=findViewById(R.id.btnSaveData)
 
-        dbRef= FirebaseDatabase.getInstance().getReference("Users")
+        val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
+
+        dbRef= FirebaseDatabase.getInstance(customUrl).getReference("Users")
 
         btnSave.setOnClickListener{
             saveNameData()
@@ -30,29 +32,24 @@ class InsertionActivity : AppCompatActivity() {
 
     }
 
-    private fun saveNameData(){
-
+    private fun saveNameData() {
         val usersName = etName.text.toString()
 
-        if(usersName.isEmpty()) {
+        if (usersName.isEmpty()) {
             etName.error = "Please enter a name"
-        }
-        val usersID = dbRef.push().key!!
+        } else {
+            val usersID = dbRef.push().key!!
+            val user = UserModel(usersID, usersName)
 
-        val user= UserModel(usersID,usersName)
-        Log.d("InsertionActivity", "usersID: $usersID")
-        Log.d("InsertionActivity", "user: $user")
-        dbRef.child(usersID).setValue(user)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // Başarılı
+            dbRef.child(usersID).setValue(user)
+                .addOnSuccessListener {
                     Toast.makeText(this, "Data is inserted Successfully", Toast.LENGTH_LONG).show()
-                } else {
-                    // Hata durumunu ele al
-                    val exception = task.exception
-                    Toast.makeText(this, "Error: ${exception?.message}", Toast.LENGTH_LONG).show()
                 }
-            }
+                .addOnFailureListener { err ->
+                    Toast.makeText(this, "Error: ${err.message}", Toast.LENGTH_LONG).show()
+                }
+        }
     }
+
 
 }
