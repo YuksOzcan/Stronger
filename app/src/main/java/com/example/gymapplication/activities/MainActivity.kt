@@ -1,9 +1,10 @@
-package com.example.gymapplication
+package com.example.gymapplication.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.content.Intent
+import com.example.gymapplication.R
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
@@ -25,6 +26,10 @@ class MainActivity : AppCompatActivity() {
 
         btnInsertData.setOnClickListener{
             val intent = Intent(this , InsertionActivity::class.java)
+            startActivity(intent)
+        }
+        btnFetchData.setOnClickListener{
+            val intent = Intent(this , FetchingActivity::class.java)
             startActivity(intent)
         }
 
