@@ -36,6 +36,9 @@
         <activity
             android:name=".activities.UserDetailsActivity"
             />
+        <activity
+            android:name=".activities.AdminHomeActivity"
+            />
 
 
 
