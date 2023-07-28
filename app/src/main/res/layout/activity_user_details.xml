@@ -160,7 +160,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="Emp Age"
+                    android:text="Status"
                     android:textColor="@color/black"
                     android:textSize="15sp"
 
@@ -175,7 +175,7 @@
                 android:layout_weight="1.4">
 
                 <TextView
-                    android:id="@+id/tvEmpAge"
+                    android:id="@+id/tvUserStatus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -203,45 +203,6 @@
 
             >
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.6"
-                android:background="@color/divider_grey">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-
-                    android:gravity="center"
-                    android:text="Emp Salary"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-
-
-                    />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.4">
-
-                <TextView
-                    android:id="@+id/tvEmpSalary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-
-                    />
-
-            </LinearLayout>
 
 
         </LinearLayout>

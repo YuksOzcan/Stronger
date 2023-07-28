@@ -40,7 +40,8 @@ class InsertionActivity : AppCompatActivity() {
             etName.error = "Please enter a name"
         } else {
             val usersID = dbRef.push().key!!
-            val user = UserModel(usersID, usersName)
+            val status= "Regular User"
+            val user = UserModel(usersID, usersName,status)
 
             dbRef.child(usersID).setValue(user)
                 .addOnSuccessListener {

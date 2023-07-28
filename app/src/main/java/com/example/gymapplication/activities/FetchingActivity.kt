@@ -8,16 +8,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapplication.R
-import com.example.gymapplication.adapters.EmpAdapter
+import com.example.gymapplication.adapters.UserAdapter
 import com.example.gymapplication.models.UserModel
 import com.google.firebase.database.*
-import com.google.firebase.ktx.Firebase
 
 class FetchingActivity :AppCompatActivity(){
 
-    private lateinit var empRecyclerView: RecyclerView
+    private lateinit var userRecyclerView: RecyclerView
     private lateinit var tvLoadingdata:TextView
-    private lateinit var empList:ArrayList<UserModel>
+    private lateinit var userList:ArrayList<UserModel>
     private lateinit var dbRef : DatabaseReference
 
 
@@ -29,19 +28,19 @@ class FetchingActivity :AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fetch)
 
-        empRecyclerView=findViewById(R.id.rvEmp)
-        empRecyclerView.layoutManager = LinearLayoutManager(this)
-        empRecyclerView.setHasFixedSize(true)
+        userRecyclerView=findViewById(R.id.rvUser)
+        userRecyclerView.layoutManager = LinearLayoutManager(this)
+        userRecyclerView.setHasFixedSize(true)
         tvLoadingdata=findViewById(R.id.tvLoadingData)
 
-        empList= arrayListOf<UserModel>()
+        userList= arrayListOf<UserModel>()
 
-        getEmployeesData()
+        getUsersData()
 
     }
 
-    private fun getEmployeesData(){
-        empRecyclerView.visibility=View.GONE
+    private fun getUsersData(){
+        userRecyclerView.visibility=View.GONE
         tvLoadingdata.visibility= View.VISIBLE
 
 
@@ -50,26 +49,27 @@ class FetchingActivity :AppCompatActivity(){
 
         dbRef.addValueEventListener(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                   empList.clear()
+                   userList.clear()
                     if (snapshot.exists()){
-                        for( empSnap in snapshot.children){
-                            val empData = empSnap.getValue(UserModel::class.java)
-                            empList.add(empData!!)
+                        for( userSnap in snapshot.children){
+                            val userData = userSnap.getValue(UserModel::class.java)
+                            userList.add(userData!!)
                         }
-                        val mAdapter = EmpAdapter(empList)
-                        empRecyclerView.adapter=mAdapter
+                        val mAdapter = UserAdapter(userList)
+                        userRecyclerView.adapter=mAdapter
 
-                        mAdapter.setOnItemClickListener(object : EmpAdapter.onItemClickListener {
+                        mAdapter.setOnItemClickListener(object : UserAdapter.onItemClickListener {
                             override fun onItemClick(position: Int) {
                                 val intent = Intent(this@FetchingActivity, UserDetailsActivity::class.java)
 
-                                intent.putExtra("userId",empList[position].userId)
-                                intent.putExtra("userName",empList[position].userName)
+                                intent.putExtra("userId",userList[position].userId)
+                                intent.putExtra("userName",userList[position].userName)
+                                intent.putExtra("userStatus",userList[position].userStatus)
                                 startActivity(intent)
 
                             }
                         })
-                        empRecyclerView.visibility= View.VISIBLE
+                        userRecyclerView.visibility= View.VISIBLE
                         tvLoadingdata.visibility = View.GONE
                     }
             }

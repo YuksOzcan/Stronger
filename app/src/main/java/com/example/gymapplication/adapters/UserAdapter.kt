@@ -1,6 +1,5 @@
 package com.example.gymapplication.adapters
 
-import android.icu.text.UnicodeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapplication.R
 import com.example.gymapplication.models.UserModel
 
-class EmpAdapter(private val emplist: ArrayList<UserModel>) :
-    RecyclerView.Adapter<EmpAdapter.ViewHolder>() {
+class UserAdapter(private val userList: ArrayList<UserModel>) :
+    RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     private lateinit var mListener: onItemClickListener
 
@@ -24,24 +23,24 @@ class EmpAdapter(private val emplist: ArrayList<UserModel>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.emp_list_item,parent,false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.user_list_item,parent,false)
         return ViewHolder(itemView, mListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentEmp = emplist[position]
-        holder.tvEmpName.text = currentEmp.userName
+        val currentUser = userList[position]
+        holder.tvUserName.text = currentUser.userName
     }
 
 
 
     override fun getItemCount(): Int {
-        return emplist.size
+        return userList.size
     }
 
 class ViewHolder( itemView: View, clickListener: onItemClickListener) : RecyclerView.ViewHolder(itemView) {
 
-    val tvEmpName : TextView = itemView.findViewById(R.id.tvEmpName)
+    val tvUserName : TextView = itemView.findViewById(R.id.tvUserName)
 
     init {
         itemView.setOnClickListener{
