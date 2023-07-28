@@ -17,7 +17,10 @@ class UserDetailsActivity :AppCompatActivity() {
     private lateinit var tvUserId: TextView
     private lateinit var tvUserName: TextView
     private lateinit var tvUserStatus: TextView
-    private lateinit var tvEmpSalary: TextView
+    private lateinit var tvUserEmail: TextView
+    private lateinit var tvUserPT: TextView
+    private lateinit var tvUserType: TextView
+
     private lateinit var btnUpdate: Button
     private lateinit var btnDelete: Button
 
@@ -33,6 +36,7 @@ class UserDetailsActivity :AppCompatActivity() {
             openUpdateDialog(
                 intent.getStringExtra("userId").toString(),
                 intent.getStringExtra("userName").toString(),
+
             )
         }
         btnDelete.setOnClickListener{
@@ -64,7 +68,12 @@ class UserDetailsActivity :AppCompatActivity() {
     private fun initView() {
         tvUserId = findViewById(R.id.tvUserId)
         tvUserName = findViewById(R.id.tvUserName)
+        tvUserEmail=findViewById(R.id.tvUserEmail)
         tvUserStatus = findViewById(R.id.tvUserStatus)
+        tvUserPT = findViewById(R.id.tvUserPT)
+        tvUserType = findViewById(R.id.tvUserType)
+
+
         btnUpdate = findViewById(R.id.btnUpdate)
         btnDelete = findViewById(R.id.btnDelete)
     }
@@ -73,6 +82,9 @@ class UserDetailsActivity :AppCompatActivity() {
         tvUserId.text = intent.getStringExtra("userId")
         tvUserName.text = intent.getStringExtra("userName")
         tvUserStatus.text=intent.getStringExtra("userStatus")
+        tvUserEmail.text=intent.getStringExtra("userEmail")
+        tvUserType.text=intent.getStringExtra("userType")
+        tvUserPT.text=intent.getStringExtra("userPT")
 
     }
 

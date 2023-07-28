@@ -64,6 +64,9 @@ class FetchingActivity :AppCompatActivity(){
 
                                 intent.putExtra("userId",userList[position].userId)
                                 intent.putExtra("userName",userList[position].userName)
+                                intent.putExtra("userEmail",userList[position].userEmail)
+                                intent.putExtra("userPT",userList[position].userPT)
+                                intent.putExtra("userType",userList[position].userType)
                                 intent.putExtra("userStatus",userList[position].userStatus)
                                 startActivity(intent)
 

@@ -39,6 +39,9 @@
         <activity
             android:name=".activities.AdminHomeActivity"
             />
+        <activity
+            android:name=".activities.WaitingActivity"
+            />
 
 
 

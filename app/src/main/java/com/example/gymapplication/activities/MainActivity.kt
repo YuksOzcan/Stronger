@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.content.Intent
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.gymapplication.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -16,10 +15,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-
-
+import com.google.firebase.database.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -79,21 +75,75 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun updateUI(account: GoogleSignInAccount) {
-        val credential = GoogleAuthProvider.getCredential(account.idToken,null)
-        auth.signInWithCredential(credential).addOnCompleteListener{
-            if(it.isSuccessful){
-                val intent = Intent(this, AdminHomeActivity::class.java)
-                intent.putExtra("email",account.email)
-                intent.putExtra("name",account.displayName)
+        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+        auth.signInWithCredential(credential).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val firebaseAuthEmail = auth.currentUser?.email
+                val dbRef = FirebaseDatabase.getInstance().getReference("Users")
 
-                startActivity(intent)
+                dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        var foundMatch = false
 
-            }else
-            {
-                Toast.makeText(this,it.exception.toString(),Toast.LENGTH_LONG).show()
+                        for (userSnapshot in snapshot.children) {
+                            val emailFromDatabase =
+                                userSnapshot.child("userEmail").getValue(String::class.java)
+                            if (emailFromDatabase == account.email) {
+                                foundMatch = true
+                                break
+                            }
+                        }
 
+                        if (foundMatch) {
+                            val intent = Intent(this@MainActivity, AdminHomeActivity::class.java)
+
+                            val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+                            databaseReference.orderByChild("userEmail").equalTo(account.email)
+                                .addListenerForSingleValueEvent(object : ValueEventListener {
+                                    override fun onDataChange(snapshot: DataSnapshot) {
+                                        if (snapshot.exists()) {
+                                            // Eşleşen kullanıcı bulundu
+                                            for (userSnapshot in snapshot.children) {
+                                                val userStatusFromDatabase = userSnapshot.child("userStatus").getValue(String::class.java)
+                                                if (userStatusFromDatabase == "Passive") {
+                                                    val intent = Intent(this@MainActivity, WaitingActivity::class.java)
+                                                    startActivity(intent)
+                                                    break
+                                                } else if (userStatusFromDatabase == "Active") {
+                                                    val intent = Intent(this@MainActivity,AdminHomeActivity::class.java)
+                                                    startActivity(intent)
+                                                    break
+                                                }
+                                            }
+                                        } else {
+                                            // Eşleşen kullanıcı bulunamadı
+                                            Toast.makeText(this@MainActivity, "User not found", Toast.LENGTH_LONG).show()
+                                        }
+                                    }
+
+                                    override fun onCancelled(error: DatabaseError) {
+                                        // Veri okuma hatası durumunda yapılacak işlemler
+                                        Toast.makeText(this@MainActivity, "Error: ${error.message}", Toast.LENGTH_LONG).show()
+                                    }
+                                })
+                        }else {
+
+                            val intent = Intent(this@MainActivity, InsertionActivity::class.java)
+                            intent.putExtra("userEmail", account.email)
+                            intent.putExtra("name", account.displayName)
+                            startActivity(intent)
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Toast.makeText(this@MainActivity, "Database Error: ${error.message}", Toast.LENGTH_LONG).show()
+                    }
+                })
+
+            } else {
+                Toast.makeText(this, task.exception.toString(), Toast.LENGTH_LONG).show()
             }
         }
-
     }
+
 }

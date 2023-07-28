@@ -1,5 +1,6 @@
 package com.example.gymapplication.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -9,6 +10,7 @@ import com.example.gymapplication.R
 import com.example.gymapplication.models.UserModel
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import java.nio.channels.NonReadableChannelException
 
 class InsertionActivity : AppCompatActivity() {
 
@@ -40,12 +42,18 @@ class InsertionActivity : AppCompatActivity() {
             etName.error = "Please enter a name"
         } else {
             val usersID = dbRef.push().key!!
-            val status= "Regular User"
-            val user = UserModel(usersID, usersName,status)
+            val type= "Regular User"
+            val PT= "None"
+            val status="Passive"
+            val email = intent.getStringExtra("userEmail")
+            val user = UserModel(usersID, usersName,email,status,PT,type)
 
             dbRef.child(usersID).setValue(user)
                 .addOnSuccessListener {
                     Toast.makeText(this, "Data is inserted Successfully", Toast.LENGTH_LONG).show()
+                    val intent = Intent(this, WaitingActivity::class.java)
+                    startActivity(intent)
+
                 }
                 .addOnFailureListener { err ->
                     Toast.makeText(this, "Error: ${err.message}", Toast.LENGTH_LONG).show()
