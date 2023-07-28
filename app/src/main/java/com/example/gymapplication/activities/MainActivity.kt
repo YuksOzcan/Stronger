@@ -41,8 +41,10 @@ class MainActivity : AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         findViewById<Button>(R.id.btnGoogleSignIn).setOnClickListener {
-            signInGoogle()
-
+            // Sign out from GoogleSignInClient before starting the sign-in flow again
+            googleSignInClient.signOut().addOnCompleteListener {
+                signInGoogle()
+            }
         }
     }
 
