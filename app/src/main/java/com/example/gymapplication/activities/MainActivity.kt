@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         findViewById<Button>(R.id.btnGoogleSignIn).setOnClickListener {
-            // Sign out from GoogleSignInClient before starting the sign-in flow again
             googleSignInClient.signOut().addOnCompleteListener {
                 signInGoogle()
             }
@@ -69,11 +68,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
-
-
-
     private fun updateUI(account: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener { task ->
@@ -102,7 +96,6 @@ class MainActivity : AppCompatActivity() {
                                 .addListenerForSingleValueEvent(object : ValueEventListener {
                                     override fun onDataChange(snapshot: DataSnapshot) {
                                         if (snapshot.exists()) {
-                                            // Eşleşen kullanıcı bulundu
                                             for (userSnapshot in snapshot.children) {
                                                 val userStatusFromDatabase = userSnapshot.child("userStatus").getValue(String::class.java)
                                                 if (userStatusFromDatabase == "Passive") {
@@ -116,13 +109,11 @@ class MainActivity : AppCompatActivity() {
                                                 }
                                             }
                                         } else {
-                                            // Eşleşen kullanıcı bulunamadı
                                             Toast.makeText(this@MainActivity, "User not found", Toast.LENGTH_LONG).show()
                                         }
                                     }
 
                                     override fun onCancelled(error: DatabaseError) {
-                                        // Veri okuma hatası durumunda yapılacak işlemler
                                         Toast.makeText(this@MainActivity, "Error: ${error.message}", Toast.LENGTH_LONG).show()
                                     }
                                 })

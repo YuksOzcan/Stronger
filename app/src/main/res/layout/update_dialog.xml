@@ -22,7 +22,6 @@
         android:hint="User Status" />
 
 
-
     <Button
         android:id="@+id/btnUpdateData"
         android:layout_width="wrap_content"

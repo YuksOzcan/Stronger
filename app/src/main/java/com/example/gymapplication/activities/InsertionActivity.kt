@@ -43,7 +43,7 @@ class InsertionActivity : AppCompatActivity() {
         } else {
             val usersID = dbRef.push().key!!
             val type= "Regular User"
-            val PT= "None"
+            val PT= null
             val status="Passive"
             val email = intent.getStringExtra("userEmail")
             val user = UserModel(usersID, usersName,email,status,PT,type)
