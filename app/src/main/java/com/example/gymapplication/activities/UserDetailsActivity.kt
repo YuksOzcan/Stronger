@@ -2,8 +2,14 @@ package com.example.gymapplication.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -21,6 +27,7 @@ class UserDetailsActivity :AppCompatActivity() {
     private lateinit var tvUserPT: TextView
     private lateinit var tvUserType: TextView
 
+
     private lateinit var btnUpdate: Button
     private lateinit var btnDelete: Button
 
@@ -28,6 +35,7 @@ class UserDetailsActivity :AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_details)
+
 
         initView()
         setValuesToViews()
@@ -73,7 +81,6 @@ class UserDetailsActivity :AppCompatActivity() {
         tvUserPT = findViewById(R.id.tvUserPT)
         tvUserType = findViewById(R.id.tvUserType)
 
-
         btnUpdate = findViewById(R.id.btnUpdate)
         btnDelete = findViewById(R.id.btnDelete)
     }
@@ -96,11 +103,76 @@ class UserDetailsActivity :AppCompatActivity() {
         mDialog.setView(mDialogView)
 
         val etUserName = mDialogView.findViewById<EditText>(R.id.etUserName)
-        val etUserStatus = mDialogView.findViewById<EditText>(R.id.etUserStatus)
+        val etUserEmail = mDialogView.findViewById<EditText>(R.id.etUserEmail)
+        val userStatusArray = resources.getStringArray(R.array.user_status)
+        val userTypesArray = resources.getStringArray(R.array.user_types)
+
+        val sUserType = mDialogView.findViewById<Spinner>(R.id.sUserType)
+        val typeAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, userTypesArray)
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        sUserType.adapter = typeAdapter
+
+        val sUserStatus = mDialogView.findViewById<Spinner>(R.id.sUserStatus)
+        val statusAdapter = ArrayAdapter(this,android.R.layout.simple_spinner_item,userStatusArray)
+        statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        sUserStatus.adapter=statusAdapter
+        val userType = intent.getStringExtra("userType")
+        val userTypeIndex = userTypesArray.indexOf(userType)
+
+        val userStatus = intent.getStringExtra("userStatus")
+        val userStatusIndex = userStatusArray.indexOf(userStatus)
+
+        if(userStatusIndex != -1) {
+            sUserStatus.setSelection(userStatusIndex)
+        }
+
+        // Set the default selection of the Spinner to the userTypeIndex
+        if (userTypeIndex != -1) {
+            sUserType.setSelection(userTypeIndex)
+        }
+        sUserStatus.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                tvUserStatus.text = userStatusArray[position]
+            }
+
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                // Not implemented
+            }
+        }
+
+        sUserType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                tvUserType.text = userTypesArray[position]
+            }
+
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                // Not implemented
+            }
+        }
+
         val btnUpdateData = mDialogView.findViewById<Button>(R.id.btnUpdateData)
 
-        etUserName.setText(intent.getStringExtra("userName").toString())
-        etUserStatus.setText(intent.getStringExtra("userStatus").toString())
+        etUserName.setText(tvUserName.text.toString())
+        etUserEmail.setText(tvUserEmail.text.toString())
+        etUserEmail.addTextChangedListener(object:TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (android.util.Patterns.EMAIL_ADDRESS.matcher(etUserEmail.text.toString()).matches()) {
+                    btnUpdateData.isEnabled = true
+                }
+                else{
+                    btnUpdateData.isEnabled=false
+                }
+            }
+
+        })
 
         mDialog.setTitle("Updating $userName Record")
 
@@ -109,25 +181,40 @@ class UserDetailsActivity :AppCompatActivity() {
 
         btnUpdateData.setOnClickListener {
             val updatedUserName = etUserName.text.toString()
-            val updatedUserStatus = etUserStatus.text.toString()
+            val updatedUserEmail = etUserEmail.text.toString()
+            val updatedUserType = tvUserType.text.toString()
+            val updatedUserStatus = tvUserStatus.text.toString()
 
-            updateUserData(userId, updatedUserName, updatedUserStatus)
+            if (updatedUserStatus== userStatusArray[0] && (updatedUserType != userTypesArray[3] )){
+                Toast.makeText(this,"You can not make"+updatedUserType.toString()+"Passive",Toast.LENGTH_LONG).show()
+            }
+            else {
 
-            tvUserName.text=etUserName.text.toString()
-            tvUserStatus.text=etUserStatus.text.toString()
+                updateUserData(
+                    userId,
+                    updatedUserName,
+                    updatedUserEmail,
+                    updatedUserStatus,
+                    "none",
+                    updatedUserType
+                )
+
+                tvUserName.text = etUserName.text.toString()
+                tvUserEmail.text = etUserEmail.text.toString()
 
 
-            alertDialog.dismiss()
+                alertDialog.dismiss()
+            }
         }
 
 
     }
-    private fun updateUserData(id: String, name: String, status: String) {
+    private fun updateUserData(id: String, name: String,email:String, status: String, PT: String, type:String) {
 
         val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
 
         val dbref = FirebaseDatabase.getInstance(customUrl).getReference("Users").child(id)
-        val userInfo = UserModel(id, name, status)
+        val userInfo = UserModel(id, name, email,status,PT,type)
         dbref.setValue(userInfo)
     }
 }

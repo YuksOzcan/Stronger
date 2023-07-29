@@ -1,3 +1,17 @@
+
+
+
 <resources>
     <string name="app_name">GymApplication</string>
+    <string-array name="user_types">
+        <item>Admin</item>
+        <item>Owner</item>
+        <item>PT</item>
+        <item>Regular User</item>
+        <item>VIP User</item>
+    </string-array>
+    <string-array name="user_status">
+        <item>Passive</item>
+        <item>Active</item>
+    </string-array>
 </resources>

@@ -16,6 +16,8 @@ class InsertionActivity : AppCompatActivity() {
 
     private lateinit var etName: EditText
     private lateinit var btnSave : Button
+    private lateinit var userTypesArray:ArrayList<String>
+
 
     private lateinit var dbRef: DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,14 +39,17 @@ class InsertionActivity : AppCompatActivity() {
 
     private fun saveNameData() {
         val usersName = etName.text.toString()
+        val userTypesArray = resources.getStringArray(R.array.user_types)
+        val userStatusArray = resources.getStringArray(R.array.user_status)
 
         if (usersName.isEmpty()) {
             etName.error = "Please enter a name"
         } else {
             val usersID = dbRef.push().key!!
-            val type= "Regular User"
+            //userTypesArray3 is regular user
+            val type= userTypesArray[3]
             val PT= null
-            val status="Passive"
+            val status=userStatusArray[0]
             val email = intent.getStringExtra("userEmail")
             val user = UserModel(usersID, usersName,email,status,PT,type)
 

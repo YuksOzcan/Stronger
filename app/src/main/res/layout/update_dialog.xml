@@ -14,13 +14,36 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/etUserStatus"
+        android:id="@+id/etUserEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:hint="User Email" />
+
+
+    <Spinner
+        android:id="@+id/sUserType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="User Status" />
+        />
 
+    <Spinner
+        android:id="@+id/sUserStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"/>
+
+    <Spinner
+        android:id="@+id/spinner3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"/>
 
     <Button
         android:id="@+id/btnUpdateData"
@@ -28,6 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
+        android:enabled="false"
         android:text="Update Data" />
 
 
