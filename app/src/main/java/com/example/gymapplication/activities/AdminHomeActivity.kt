@@ -35,7 +35,7 @@ class AdminHomeActivity : AppCompatActivity() {
 
 
         btnInsertData.setOnClickListener{
-            val intent = Intent(this , InsertionActivity::class.java)
+            val intent = Intent(this , HomeActivity::class.java)
             startActivity(intent)
         }
         btnFetchData.setOnClickListener{
