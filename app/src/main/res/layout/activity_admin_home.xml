@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.AdminHomeActivity">
+    tools:context=".activities.users.AdminHomeActivity">
 
 
     <Button
@@ -35,6 +35,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnInsert" />
 
+
+    <Button
+        android:id="@+id/btnHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="400dp"
+        android:text="Calendar"
+        app:layout_constraintBottom_toTopOf="@+id/btnAdminSignOut"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnFetch" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAdminSignOut"
         android:layout_width="match_parent"
@@ -49,6 +64,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnFetch" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

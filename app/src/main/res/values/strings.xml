@@ -10,8 +10,24 @@
         <item>Regular User</item>
         <item>VIP User</item>
     </string-array>
+
     <string-array name="user_status">
         <item>Passive</item>
         <item>Active</item>
+    </string-array>
+
+    <string name="Movements">Movements</string>
+
+    <string-array name="chest_moves">
+        <item>Bench Press</item>
+        <item>Incline Bench Press</item>
+        <item>Butterfly Press</item>
+        <item>Dips</item>
+    </string-array>
+
+    <string-array name="shoulder_moves">
+        <item>Shoulder Press</item>
+        <item>Military Press</item>
+        <item>Arnold Press</item>
     </string-array>
 </resources>

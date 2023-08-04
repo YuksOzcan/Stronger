@@ -8,6 +8,7 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.gymapplication.R
+import com.example.gymapplication.activities.users.InsertionActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -27,6 +28,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+      // bu satırı kaldırman lazımm
+
+
+
+        val intent = Intent(this@MainActivity,HomeActivity::class.java)
+        startActivity(intent)
+
         auth = FirebaseAuth.getInstance()
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -34,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             .requestEmail()
             .build()
 
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
+            googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         findViewById<Button>(R.id.btnGoogleSignIn).setOnClickListener {
             googleSignInClient.signOut().addOnCompleteListener {
@@ -87,9 +95,15 @@ class MainActivity : AppCompatActivity() {
                                 break
                             }
                         }
+                        // burayı admin activity yapıcakasın
+
+
+
+
+
 
                         if (foundMatch) {
-                            val intent = Intent(this@MainActivity, AdminHomeActivity::class.java)
+                            val intent = Intent(this@MainActivity, HomeActivity::class.java)
 
                             val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
                             databaseReference.orderByChild("userEmail").equalTo(account.email)
@@ -103,7 +117,7 @@ class MainActivity : AppCompatActivity() {
                                                     startActivity(intent)
                                                     break
                                                 } else if (userStatusFromDatabase == "Active") {
-                                                    val intent = Intent(this@MainActivity,AdminHomeActivity::class.java)
+                                                    val intent = Intent(this@MainActivity,HomeActivity::class.java)
                                                     startActivity(intent)
                                                     break
                                                 }

@@ -28,16 +28,16 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activities.InsertionActivity"
+            android:name=".activities.users.InsertionActivity"
             />
         <activity
-            android:name=".activities.FetchingActivity"
+            android:name=".activities.users.FetchingActivity"
             />
         <activity
-            android:name=".activities.UserDetailsActivity"
+            android:name=".activities.users.UserDetailsActivity"
             />
         <activity
-            android:name=".activities.AdminHomeActivity"
+            android:name=".activities.users.AdminHomeActivity"
             />
         <activity
             android:name=".activities.WaitingActivity"
@@ -45,6 +45,13 @@
         <activity
             android:name=".activities.HomeActivity"
             />
+        <activity
+            android:name=".activities.workouts.SavedWorkoutActivity"
+            />
+        <activity
+            android:name=".activities"
+            />
+
 
 
 
