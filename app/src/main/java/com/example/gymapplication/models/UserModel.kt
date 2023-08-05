@@ -6,6 +6,7 @@ data class UserModel(
     var userEmail:String? = null,
     var userStatus:String? = null,
     var userPT:String? = null,
-    var userType:String? =  null
+    var userType:String? =  null,
+    var workouts:String? = null
 
 )

@@ -126,7 +126,6 @@ class UserDetailsActivity :AppCompatActivity() {
             sUserStatus.setSelection(userStatusIndex)
         }
 
-        // Set the default selection of the Spinner to the userTypeIndex
         if (userTypeIndex != -1) {
             sUserType.setSelection(userTypeIndex)
         }

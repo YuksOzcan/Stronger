@@ -49,7 +49,10 @@
             android:name=".activities.workouts.SavedWorkoutActivity"
             />
         <activity
-            android:name=".activities"
+            android:name=".activities.workouts.ChooseExercisesActivity"
+            />
+        <activity
+            android:name=".activities.workouts.CreateWorkoutActivity"
             />
 
 

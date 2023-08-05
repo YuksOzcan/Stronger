@@ -66,6 +66,18 @@
         app:layout_constraintTop_toBottomOf="@+id/btnFetch" />
 
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnListedExercises"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="343dp"
+        android:text="Add listed Exercises"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnAdminSignOut"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnHome" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

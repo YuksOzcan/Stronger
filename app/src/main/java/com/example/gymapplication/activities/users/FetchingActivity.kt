@@ -57,6 +57,9 @@ class FetchingActivity :AppCompatActivity(){
                         }
                         val mAdapter = UserAdapter(userList)
                         userRecyclerView.adapter=mAdapter
+//burada seçileni arraylist'e ekliceksin
+
+
 
                         mAdapter.setOnItemClickListener(object : UserAdapter.onItemClickListener {
                             override fun onItemClick(position: Int) {

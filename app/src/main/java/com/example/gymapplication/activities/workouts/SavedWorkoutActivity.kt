@@ -9,6 +9,7 @@ import com.example.gymapplication.R
 
 private lateinit var btnCreateRoutine: Button
 private lateinit var tvDate : TextView
+
 class SavedWorkoutActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.gymapplication.R
 import com.example.gymapplication.activities.WaitingActivity
 import com.example.gymapplication.models.UserModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
@@ -16,9 +17,6 @@ class InsertionActivity : AppCompatActivity() {
 
     private lateinit var etName: EditText
     private lateinit var btnSave : Button
-    private lateinit var userTypesArray:ArrayList<String>
-
-
     private lateinit var dbRef: DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +26,6 @@ class InsertionActivity : AppCompatActivity() {
         btnSave=findViewById(R.id.btnSaveData)
 
         val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
-
         dbRef= FirebaseDatabase.getInstance(customUrl).getReference("Users")
 
         btnSave.setOnClickListener{
@@ -45,24 +42,32 @@ class InsertionActivity : AppCompatActivity() {
         if (usersName.isEmpty()) {
             etName.error = "Please enter a name"
         } else {
-            val usersID = dbRef.push().key!!
+            val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+            val currentUserId = mAuth.currentUser?.uid
             //userTypesArray3 is regular user
-            val type= userTypesArray[3]
+            val type= userTypesArray[0]
             val PT= null
-            val status=userStatusArray[0]
+            val status=userStatusArray[1]
             val email = intent.getStringExtra("userEmail")
-            val user = UserModel(usersID, usersName,email,status,PT,type)
+            val user = UserModel(currentUserId, usersName,email,status,PT,type)
+            if (currentUserId == null) {
+                Toast.makeText(this, "User is not authenticated!", Toast.LENGTH_LONG).show()
+                return
+            }
+            else {
 
-            dbRef.child(usersID).setValue(user)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Data is inserted Successfully", Toast.LENGTH_LONG).show()
-                    val intent = Intent(this, WaitingActivity::class.java)
-                    startActivity(intent)
+                dbRef.child(currentUserId).setValue(user)
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Data is inserted Successfully", Toast.LENGTH_LONG)
+                            .show()
+                        val intent = Intent(this, WaitingActivity::class.java)
+                        startActivity(intent)
 
-                }
-                .addOnFailureListener { err ->
-                    Toast.makeText(this, "Error: ${err.message}", Toast.LENGTH_LONG).show()
-                }
+                    }
+                    .addOnFailureListener { err ->
+                        Toast.makeText(this, "Error: ${err.message}", Toast.LENGTH_LONG).show()
+                    }
+            }
         }
     }
 

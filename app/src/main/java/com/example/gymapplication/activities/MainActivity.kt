@@ -8,7 +8,10 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.gymapplication.R
+import com.example.gymapplication.activities.users.AdminHomeActivity
+import com.example.gymapplication.activities.users.FetchingActivity
 import com.example.gymapplication.activities.users.InsertionActivity
+import com.example.gymapplication.activities.workouts.ChooseExercisesActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -29,11 +32,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
       // bu satırı kaldırman lazımm
-
-
-
-        val intent = Intent(this@MainActivity,HomeActivity::class.java)
-        startActivity(intent)
+      //  val intent = Intent(this@MainActivity,AdminHomeActivity::class.java)
+      //  startActivity(intent)
 
         auth = FirebaseAuth.getInstance()
 
