@@ -4,15 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.SavedWorkoutActivity">
+    tools:context=".activities.workouts.SavedWorkoutActivity">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCreateRoutine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-
-
         android:layout_marginTop="100dp"
         android:layout_marginEnd="100dp"
         android:layout_marginBottom="600dp"
@@ -29,6 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="150dp"
+        android:text="Selected Date"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="150dp"
         android:layout_marginBottom="50dp"
@@ -36,6 +35,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSavedWorkouts"
+        android:layout_width="401dp"
+        android:layout_height="470dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="170dp"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.032"
+        tools:listitem="@layout/saved_workout_items" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
