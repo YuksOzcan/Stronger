@@ -27,22 +27,38 @@ class SavedWorkoutActivity:AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_saved_workouts)
 
-        val date = intent.getStringExtra("Date")
-        btnCreateRoutine=findViewById(R.id.btnCreateRoutine)
         tvDate = findViewById(R.id.tvSelectedDate)
-        tvDate.text= date
+        var date = intent.getStringExtra("Date")
+        var sharedPref = getSharedPreferences("MyApp", MODE_PRIVATE)
+        if(date != null){
+            tvDate.text = date
+        } else {
+            date = sharedPref.getString("selectedDate", "No Date Available")
+            tvDate.text = date
+        }
 
+        btnCreateRoutine=findViewById(R.id.btnCreateRoutine)
         rvWorkout=findViewById(R.id.rvSavedWorkouts)
         rvWorkout.layoutManager=LinearLayoutManager(this)
         rvWorkout.setHasFixedSize(true)
         workoutList= arrayListOf()
         getWorkouts()
 
-        btnCreateRoutine.setOnClickListener{
+
+        btnCreateRoutine.setOnClickListener {
+            val sharedPref = getSharedPreferences("MyApp", MODE_PRIVATE)
+            with (sharedPref.edit()) {
+                putString("selectedDate", date)
+                commit()
+            }
             val intent = Intent(this, CreateWorkoutActivity::class.java )
+            intent.putExtra("Date", date)
             startActivity(intent)
         }
+
+
     }
+
     private fun getWorkouts(){
         val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
         dbRef = FirebaseDatabase.getInstance(customUrl).getReference("Workouts")

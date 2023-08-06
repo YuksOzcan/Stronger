@@ -26,6 +26,8 @@ class CreateWorkoutActivity:AppCompatActivity() {
     private lateinit var btnSave:Button
     private lateinit var dbRef:DatabaseReference
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_workout)
@@ -37,6 +39,7 @@ class CreateWorkoutActivity:AppCompatActivity() {
 
 
 
+
         getExercises()
 
         btnExercises.setOnClickListener{
@@ -44,32 +47,35 @@ class CreateWorkoutActivity:AppCompatActivity() {
             startActivity(intent)
         }
         btnSave.setOnClickListener{
-            saveWorkout()
+            val workoutName = etWorkoutName.text.toString()
+            if (workoutName.isEmpty()){
+                Toast.makeText(this,"Please enter a workout name",Toast.LENGTH_LONG).show()
+            }
+            else {
+                saveWorkout()
+                val intent = Intent(this, SavedWorkoutActivity::class.java)
+                startActivity(intent)
+            }
         }
 
 
     }
+
     private fun saveWorkout(){
         val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
         val currentUserId = mAuth.currentUser?.uid
         val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
-
         val userRef = FirebaseDatabase.getInstance(customUrl).getReference("Users").child(currentUserId!!)
-
         dbRef= FirebaseDatabase.getInstance(customUrl).getReference("Workouts")
         val workoutName = etWorkoutName.text.toString()
-        if (workoutName.isEmpty()){
-            Toast.makeText(this,"Please enter a workout name",Toast.LENGTH_LONG).show()
-        }
-        else{
+
             val workoutID =dbRef.push().key!!
             val workout= WorkoutModel(workoutID,workoutName,selectedExercisesList)
 
             dbRef.child(workoutID).setValue(workout)
                 .addOnSuccessListener {
                     Toast.makeText(this, "Data is inserted Successfully", Toast.LENGTH_LONG).show()
-                    val intent = Intent(this, SavedWorkoutActivity::class.java)
-                    startActivity(intent)
+
                     userRef.child("workouts").addListenerForSingleValueEvent(object :
                         ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -82,7 +88,8 @@ class CreateWorkoutActivity:AppCompatActivity() {
                             TODO("Not yet implemented")
                         }
                     })
-        }
+
+
 
     }
     }
