@@ -69,29 +69,29 @@ class CreateWorkoutActivity:AppCompatActivity() {
         dbRef= FirebaseDatabase.getInstance(customUrl).getReference("Workouts")
         val workoutName = etWorkoutName.text.toString()
 
-            val workoutID =dbRef.push().key!!
-            val workout= WorkoutModel(workoutID,workoutName,selectedExercisesList)
+        val workoutID =dbRef.push().key!!
+        val workout= WorkoutModel(workoutID,workoutName,selectedExercisesList)
 
-            dbRef.child(workoutID).setValue(workout)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Data is inserted Successfully", Toast.LENGTH_LONG).show()
+        dbRef.child(workoutID).setValue(workout)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Data is inserted Successfully", Toast.LENGTH_LONG).show()
 
-                    userRef.child("workouts").addListenerForSingleValueEvent(object :
-                        ValueEventListener {
-                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-                            val currentWorkouts = dataSnapshot.getValue<ArrayList<String>>() ?: ArrayList()
-                            currentWorkouts.add(workoutID)
-                            userRef.child("workouts").setValue(currentWorkouts)
-                        }
+                userRef.child("workouts").addListenerForSingleValueEvent(object :
+                    ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        val currentWorkouts = dataSnapshot.getValue<ArrayList<String>>() ?: ArrayList()
+                        currentWorkouts.add(workoutID)
+                        userRef.child("workouts").setValue(currentWorkouts)
+                    }
 
-                        override fun onCancelled(error: DatabaseError) {
-                            TODO("Not yet implemented")
-                        }
-                    })
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+                })
 
 
 
-    }
+            }
     }
 
 

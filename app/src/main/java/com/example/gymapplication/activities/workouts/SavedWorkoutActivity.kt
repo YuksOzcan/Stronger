@@ -9,9 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapplication.R
-import com.example.gymapplication.adapters.ExerciseAdapter
 import com.example.gymapplication.adapters.WorkoutAdapter
-import com.example.gymapplication.models.ExerciseModel
 import com.example.gymapplication.models.WorkoutModel
 import com.google.firebase.database.*
 
@@ -42,9 +40,10 @@ class SavedWorkoutActivity:AppCompatActivity() {
         rvWorkout.layoutManager=LinearLayoutManager(this)
         rvWorkout.setHasFixedSize(true)
         workoutList= arrayListOf()
-        getWorkouts()
+        if(date!=null) {
+            getWorkouts(date)
 
-
+        }
         btnCreateRoutine.setOnClickListener {
             val sharedPref = getSharedPreferences("MyApp", MODE_PRIVATE)
             with (sharedPref.edit()) {
@@ -59,7 +58,7 @@ class SavedWorkoutActivity:AppCompatActivity() {
 
     }
 
-    private fun getWorkouts(){
+    private fun getWorkouts(date:String){
         val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
         dbRef = FirebaseDatabase.getInstance(customUrl).getReference("Workouts")
         dbRef.addValueEventListener(object : ValueEventListener {
@@ -80,6 +79,19 @@ class SavedWorkoutActivity:AppCompatActivity() {
                                     "You clicked on ${workoutList[position].workoutName}",
                                     Toast.LENGTH_LONG
                                 ).show()
+                                dbRef = FirebaseDatabase.getInstance(customUrl).getReference("SelectedWorkouts")
+                                val workoutID =dbRef.push().key!!
+                                val workout = WorkoutModel(workoutID,workoutList[position].workoutName,
+                                    workoutList[position].exercisesList,date)
+                                dbRef.child(workoutID).setValue(workout)
+                                val intent = Intent(this@SavedWorkoutActivity,WorkoutActivity::class.java)
+                                intent.putExtra("WorkoutName", workoutList[position].workoutName)
+                                intent.putExtra("ExercisesList", workoutList[position].exercisesList)
+                                intent.putExtra("Date",date)
+                                startActivity(intent)
+
+
+
 
                             }
                         })

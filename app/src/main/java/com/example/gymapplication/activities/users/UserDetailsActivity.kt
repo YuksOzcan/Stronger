@@ -80,7 +80,6 @@ class UserDetailsActivity :AppCompatActivity() {
         tvUserStatus = findViewById(R.id.tvUserStatus)
         tvUserPT = findViewById(R.id.tvUserPT)
         tvUserType = findViewById(R.id.tvUserType)
-
         btnUpdate = findViewById(R.id.btnUpdate)
         btnDelete = findViewById(R.id.btnDelete)
     }

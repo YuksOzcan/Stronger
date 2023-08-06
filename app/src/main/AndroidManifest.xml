@@ -55,7 +55,12 @@
             android:name=".activities.workouts.CreateWorkoutActivity"
             />
 
+        <activity android:name=".activities.workouts.WorkoutActivity"
 
+            />
+        <activity android:name=".activities.workouts.RecordActivity"
+
+            />
 
 
     </application>
