@@ -26,8 +26,6 @@ class CreateWorkoutActivity:AppCompatActivity() {
     private lateinit var btnSave:Button
     private lateinit var dbRef:DatabaseReference
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_workout)
@@ -70,18 +68,18 @@ class CreateWorkoutActivity:AppCompatActivity() {
         val workoutName = etWorkoutName.text.toString()
 
         val workoutID =dbRef.push().key!!
-        val workout= WorkoutModel(workoutID,workoutName,selectedExercisesList)
+        val workout= WorkoutModel(workoutID,workoutName,selectedExercisesList,"",currentUserId)
 
         dbRef.child(workoutID).setValue(workout)
             .addOnSuccessListener {
                 Toast.makeText(this, "Data is inserted Successfully", Toast.LENGTH_LONG).show()
 
-                userRef.child("workouts").addListenerForSingleValueEvent(object :
+                userRef.child("exercisesList").addListenerForSingleValueEvent(object :
                     ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         val currentWorkouts = dataSnapshot.getValue<ArrayList<String>>() ?: ArrayList()
                         currentWorkouts.add(workoutID)
-                        userRef.child("workouts").setValue(currentWorkouts)
+                        userRef.child("exercisesList").setValue(currentWorkouts)
                     }
 
                     override fun onCancelled(error: DatabaseError) {

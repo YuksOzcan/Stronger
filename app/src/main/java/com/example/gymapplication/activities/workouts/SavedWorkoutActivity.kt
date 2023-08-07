@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapplication.R
 import com.example.gymapplication.adapters.WorkoutAdapter
 import com.example.gymapplication.models.WorkoutModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 private lateinit var btnCreateRoutine: Button
@@ -81,12 +82,15 @@ class SavedWorkoutActivity:AppCompatActivity() {
                                 ).show()
                                 dbRef = FirebaseDatabase.getInstance(customUrl).getReference("SelectedWorkouts")
                                 val workoutID =dbRef.push().key!!
+                                val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+                                val currentUserId = mAuth.currentUser?.uid
                                 val workout = WorkoutModel(workoutID,workoutList[position].workoutName,
-                                    workoutList[position].exercisesList,date)
+                                    workoutList[position].exercisesList,date,currentUserId)
                                 dbRef.child(workoutID).setValue(workout)
                                 val intent = Intent(this@SavedWorkoutActivity,WorkoutActivity::class.java)
                                 intent.putExtra("WorkoutName", workoutList[position].workoutName)
                                 intent.putExtra("ExercisesList", workoutList[position].exercisesList)
+                                intent.putExtra("WorkoutList", workoutList[position])
                                 intent.putExtra("Date",date)
                                 startActivity(intent)
 

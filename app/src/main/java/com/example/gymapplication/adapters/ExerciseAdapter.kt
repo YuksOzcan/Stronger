@@ -26,7 +26,6 @@
             val itemView=LayoutInflater.from(parent.context).inflate(R.layout.exercises_item,parent,false)
             return ViewHolder(itemView)
         }
-//burada hata olma ihitmali yükske
         override fun onBindViewHolder(holder:ViewHolder, position: Int) {
             val selectedExercise = exerciseList[position]
             holder.tv_exercise_name.text = selectedExercise.exerciseName

@@ -1,5 +1,6 @@
 package com.example.gymapplication.activities.workouts
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapplication.R
 import com.example.gymapplication.adapters.ExerciseAdapter
 import com.example.gymapplication.models.ExerciseModel
+import com.example.gymapplication.models.WorkoutModel
 import com.google.firebase.database.*
 
 class WorkoutActivity : AppCompatActivity() {
@@ -26,26 +28,32 @@ class WorkoutActivity : AppCompatActivity() {
         tvWorkoutName = findViewById(R.id.tvSelectedWorkout)
         rvExercises = findViewById(R.id.rvWorkoutExercises)
 
-        // Setup RecyclerView
         rvExercises.layoutManager = LinearLayoutManager(this)
         rvExercises.setHasFixedSize(true)
 
         tvWorkoutName.text = intent.getStringExtra("WorkoutName")
 
         getExercises()
+        val exercisesArray = intent.getSerializableExtra("ExercisesList") as? ArrayList<ExerciseModel> ?: ArrayList()
+        val workoutArray = intent.getSerializableExtra("WorkoutList") as? ArrayList<WorkoutModel> ?: ArrayList()
+
+
+        btnStart.setOnClickListener{
+            val intent = Intent(this,RecordActivity::class.java)
+            intent.putExtra("ExercisesList", exercisesArray)
+            intent.putExtra("WorkoutList", workoutArray)
+            startActivity(intent)
+        }
     }
 
     private fun getExercises() {
-        // Get the exercises from the intent
         val exercisesArray = intent.getSerializableExtra("ExercisesList") as? ArrayList<ExerciseModel> ?: ArrayList()
-
-        // Create and set the adapter for the exercises RecyclerView
         val mAdapter = ExerciseAdapter(exercisesArray)
         rvExercises.adapter = mAdapter
 
         mAdapter.setOnItemClickListener(object : ExerciseAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
-                // Handle the item click if needed
+
             }
         })
     }
