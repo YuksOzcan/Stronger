@@ -1,5 +1,6 @@
 package com.example.gymapplication.activities.workouts
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -8,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapplication.R
+import com.example.gymapplication.activities.HomeActivity
 import com.example.gymapplication.adapters.ExerciseAdapter
 import com.example.gymapplication.adapters.RecordAdapter
 import com.example.gymapplication.models.ExerciseModel
@@ -27,6 +29,7 @@ class RecordActivity:AppCompatActivity() {
     private lateinit var tvExerciseName:TextView
     private lateinit var newRecords: ArrayList<RecordModel>
     private lateinit var db:DatabaseReference
+    private var i = 0
 
 
 
@@ -34,48 +37,64 @@ class RecordActivity:AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_record)
 
-        var i  = 0
+        i = intent.getIntExtra("currentIndex", 0)
+        val exercisesArray = intent.getSerializableExtra("ExercisesList") as? ArrayList<ExerciseModel> ?: ArrayList()
+        val workoutID = intent.getStringExtra("WorkoutList")
         initView()
         getValues(i)
 
         btnNext.setOnClickListener {
             for (record in newRecords) {
-                val exercisesArray =
-                    intent.getSerializableExtra("ExercisesList") as? ArrayList<ExerciseModel>
-                        ?: ArrayList()
-                val workoutArray =
-                    intent.getSerializableExtra("WorkoutList") as? ArrayList<WorkoutModel>
-                        ?: ArrayList()
                 val exercise = exercisesArray[i].exerciseName ?: ""
-                val workoutID = workoutArray[i].workoutID
-                val customUrl =
-                    "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
-                if (workoutID != null) {
-                    val recordRef =
-                        FirebaseDatabase.getInstance(customUrl).getReference("SelectedWorkouts")
-                            .child(workoutID)
-                    recordRef.child("exercisesList")
-                        .addListenerForSingleValueEvent(object : ValueEventListener {
-                            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                val existingRecords =
-                                    dataSnapshot.getValue<ArrayList<RecordModel>>() ?: ArrayList()
-                                for (recordModel in newRecords) {
-                                    existingRecords.add(recordModel)
-                                }
-                                recordRef.child("exercisesList").setValue(existingRecords)
-                            }
+                val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
 
-                            override fun onCancelled(error: DatabaseError) {
-                                TODO("Not yet implemented")
+                if (workoutID != null) {
+                    val recordRef = FirebaseDatabase.getInstance(customUrl).getReference("SelectedWorkouts").child(workoutID).child("exercisesList").child(i.toString()).child("exerciseRecord")
+
+                    recordRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            val existingRecords = dataSnapshot.getValue<ArrayList<RecordModel>>() ?: ArrayList()
+                            for (recordModel in newRecords) {
+                                existingRecords.add(recordModel)
                             }
-                        })
+                            recordRef.setValue(existingRecords)
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+                    })
                 }
+
             }
+            i++
+            if(i>=exercisesArray.size){
+                val intent = Intent(this,HomeActivity::class.java)
+                startActivity(intent)
+
+            } else {
+                refreshActivity()
+            }
+
         }
 
 
 
+
+
     }
+    private fun refreshActivity() {
+        val intent = intent
+        val exercisesArray = intent.getSerializableExtra("ExercisesList") as? ArrayList<ExerciseModel> ?: ArrayList()
+        val workoutID = intent.getStringExtra("WorkoutList")
+        intent.putExtra("ExercisesList", exercisesArray)
+        intent.putExtra("WorkoutList", workoutID)
+        intent.putExtra("currentIndex", i)
+
+        finish()
+        startActivity(intent)
+    }
+
 
 
     private fun initView(){

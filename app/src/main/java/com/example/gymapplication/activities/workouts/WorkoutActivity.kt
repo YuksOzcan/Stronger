@@ -35,7 +35,7 @@ class WorkoutActivity : AppCompatActivity() {
 
         getExercises()
         val exercisesArray = intent.getSerializableExtra("ExercisesList") as? ArrayList<ExerciseModel> ?: ArrayList()
-        val workoutArray = intent.getSerializableExtra("WorkoutList") as? ArrayList<WorkoutModel> ?: ArrayList()
+        val workoutArray = intent.getStringExtra("WorkoutList")
 
 
         btnStart.setOnClickListener{

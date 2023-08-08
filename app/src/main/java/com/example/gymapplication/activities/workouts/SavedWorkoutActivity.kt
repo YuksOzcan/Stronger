@@ -90,7 +90,7 @@ class SavedWorkoutActivity:AppCompatActivity() {
                                 val intent = Intent(this@SavedWorkoutActivity,WorkoutActivity::class.java)
                                 intent.putExtra("WorkoutName", workoutList[position].workoutName)
                                 intent.putExtra("ExercisesList", workoutList[position].exercisesList)
-                                intent.putExtra("WorkoutList", workoutList[position])
+                                intent.putExtra("WorkoutList", workoutID)
                                 intent.putExtra("Date",date)
                                 startActivity(intent)
 
