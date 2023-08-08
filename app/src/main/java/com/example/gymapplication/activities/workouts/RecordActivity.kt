@@ -10,11 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapplication.R
 import com.example.gymapplication.activities.HomeActivity
-import com.example.gymapplication.adapters.ExerciseAdapter
 import com.example.gymapplication.adapters.RecordAdapter
 import com.example.gymapplication.models.ExerciseModel
 import com.example.gymapplication.models.RecordModel
-import com.example.gymapplication.models.WorkoutModel
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 
@@ -77,11 +75,6 @@ class RecordActivity:AppCompatActivity() {
             }
 
         }
-
-
-
-
-
     }
     private fun refreshActivity() {
         val intent = intent
@@ -123,10 +116,9 @@ class RecordActivity:AppCompatActivity() {
             val newRecord = RecordModel()
             newRecord.repeats = etAddRepeat.text.toString()
             newRecord.weight = etAddWeight.text.toString()
+            mAdapter.addItem(newRecord)
             newRecords.add(newRecord)
             mAdapter.notifyDataSetChanged()
         }
-
-
     }
 }

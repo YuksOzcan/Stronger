@@ -31,10 +31,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-      // bu satırı kaldırman lazımm
-      //  val intent = Intent(this@MainActivity,AdminHomeActivity::class.java)
-      //  startActivity(intent)
-
         auth = FirebaseAuth.getInstance()
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -117,7 +113,8 @@ class MainActivity : AppCompatActivity() {
                                                     startActivity(intent)
                                                     break
                                                 } else if (userStatusFromDatabase == "Active") {
-                                                    val intent = Intent(this@MainActivity,HomeActivity::class.java)
+                                                    //bu satır for fast access
+                                                    val intent = Intent(this@MainActivity,AdminHomeActivity::class.java)
                                                     startActivity(intent)
                                                     break
                                                 }

@@ -62,6 +62,9 @@ class SavedWorkoutActivity:AppCompatActivity() {
     private fun getWorkouts(date:String){
         val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
         dbRef = FirebaseDatabase.getInstance(customUrl).getReference("Workouts")
+        val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+        val currentUserId = mAuth.currentUser?.uid
+        val userRef = FirebaseDatabase.getInstance(customUrl).getReference("Users").child(currentUserId!!)
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 workoutList.clear()

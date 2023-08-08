@@ -35,9 +35,6 @@ class CreateWorkoutActivity:AppCompatActivity() {
         rvExercises=findViewById(R.id.rvSelectedExercises)
         btnSave=findViewById(R.id.btnSaveWorkout)
 
-
-
-
         getExercises()
 
         btnExercises.setOnClickListener{
@@ -68,7 +65,7 @@ class CreateWorkoutActivity:AppCompatActivity() {
         val workoutName = etWorkoutName.text.toString()
 
         val workoutID =dbRef.push().key!!
-        val workout= WorkoutModel(workoutID,workoutName,selectedExercisesList,"",currentUserId)
+        val workout= WorkoutModel(workoutID,workoutName,selectedExercisesList,null,currentUserId)
 
         dbRef.child(workoutID).setValue(workout)
             .addOnSuccessListener {
