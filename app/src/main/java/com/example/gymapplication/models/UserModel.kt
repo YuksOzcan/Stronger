@@ -7,7 +7,7 @@ data class UserModel(
     var userStatus:String? = null,
     var userPT:String? = null,
     var userType:String? =  null,
-    var workouts:String? = null,
-    var selectedWorkouts:String?=null
+    var workouts: List<String>? = null,
+    var selectedWorkouts: List<String>? = null
 
 )

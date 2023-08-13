@@ -33,7 +33,7 @@ class FetchingActivity :AppCompatActivity(){
         userRecyclerView.setHasFixedSize(true)
         tvLoadingdata=findViewById(R.id.tvLoadingData)
 
-        userList= arrayListOf<UserModel>()
+        userList= arrayListOf()
 
         getUsersData()
 

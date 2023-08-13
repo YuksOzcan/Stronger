@@ -4,6 +4,7 @@ package com.example.gymapplication.activities
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,8 +15,16 @@ import com.example.gymapplication.R
 import com.example.gymapplication.activities.workouts.SavedWorkoutActivity
 import com.example.gymapplication.adapters.CalendarAdapter
 import com.example.gymapplication.models.CalendarModel
+import com.example.gymapplication.models.WorkoutModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import java.util.*
 import kotlin.collections.ArrayList
+import com.google.firebase.database.ValueEventListener
+
 
 class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
 
@@ -27,13 +36,17 @@ class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
     private val calendarList2 = ArrayList<CalendarModel>()
     private lateinit var btnWorkoutRoutine : Button
     private var selectedDate:String? = null
-
+    private lateinit var tvWorkoutName : TextView
+    private lateinit var tvDate: TextView
+    private lateinit var dbRef:DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
         btnWorkoutRoutine= findViewById(R.id.btnAddWorkoutToday)
+        tvWorkoutName = findViewById(R.id.tvHomeWorkoutName)
+        tvDate = findViewById(R.id.tvHomeDate)
 
         btnWorkoutRoutine.setOnClickListener{
             if (selectedDate != null) {
@@ -54,8 +67,36 @@ class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
     }
     override fun onItemClick(text: String, date: String, day: String) {
         selectedDate=text
-        val message = "Selected date: $date ($day)"
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        tvDate.text= selectedDate.toString()
+        getWorkouts()
+
+    }
+    private fun getWorkouts(){
+        val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
+        dbRef = FirebaseDatabase.getInstance(customUrl).getReference("SelectedWorkout")
+        val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+        val currentUserId = mAuth.currentUser?.uid
+
+        val combinedKey = "${currentUserId}_$selectedDate"
+
+        val dbRef = FirebaseDatabase.getInstance().getReference("SelectedWorkout")
+
+        dbRef.orderByKey().equalTo(combinedKey).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    for (workoutSnapshot in snapshot.children) {
+                        val workout = workoutSnapshot.getValue(WorkoutModel::class.java)
+                        tvWorkoutName.text = workout?.workoutName
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Hata oluştuğunda burası çağrılır
+                // Hata mesajını gösterebilir veya loglayabilirsiniz.
+            }
+        })
+
     }
 
 

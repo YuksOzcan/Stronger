@@ -26,7 +26,6 @@ class RecordActivity:AppCompatActivity() {
     private lateinit var rvRecords:RecyclerView
     private lateinit var tvExerciseName:TextView
     private lateinit var newRecords: ArrayList<RecordModel>
-    private lateinit var db:DatabaseReference
     private var i = 0
 
 
@@ -43,9 +42,7 @@ class RecordActivity:AppCompatActivity() {
 
         btnNext.setOnClickListener {
             for (record in newRecords) {
-                val exercise = exercisesArray[i].exerciseName ?: ""
                 val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
-
                 if (workoutID != null) {
                     val recordRef = FirebaseDatabase.getInstance(customUrl).getReference("SelectedWorkouts").child(workoutID).child("exercisesList").child(i.toString()).child("exerciseRecord")
 
@@ -63,7 +60,6 @@ class RecordActivity:AppCompatActivity() {
                         }
                     })
                 }
-
             }
             i++
             if(i>=exercisesArray.size){
