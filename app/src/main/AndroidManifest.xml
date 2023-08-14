@@ -61,6 +61,8 @@
         <activity android:name=".activities.workouts.RecordActivity"
 
             />
+        <activity android:name=".activities.users.PersonalTrainerActivity"
+            />
 
 
     </application>

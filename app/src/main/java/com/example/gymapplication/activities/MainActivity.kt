@@ -101,8 +101,8 @@ class MainActivity : AppCompatActivity() {
                         if (foundMatch) {
                             val intent = Intent(this@MainActivity, HomeActivity::class.java)
 
-                            val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
-                            databaseReference.orderByChild("userEmail").equalTo(account.email)
+                            val dbRef = FirebaseDatabase.getInstance().getReference("Users")
+                            dbRef.orderByChild("userEmail").equalTo(account.email)
                                 .addListenerForSingleValueEvent(object : ValueEventListener {
                                     override fun onDataChange(snapshot: DataSnapshot) {
                                         if (snapshot.exists()) {

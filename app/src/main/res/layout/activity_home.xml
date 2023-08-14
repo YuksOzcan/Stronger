@@ -39,15 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAddWorkoutToday" />
 
-    <TextView
-        android:id="@+id/tvHomeWorkoutName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Workout Name"
-        app:layout_constraintStart_toEndOf="@+id/rvCalendar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvHomeDate" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvWorkoutOuter"
@@ -56,7 +48,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toEndOf="@+id/rvCalendar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvHomeWorkoutName"
+        app:layout_constraintTop_toBottomOf="@id/tvHomeDate"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/outer_workout_item" />
 

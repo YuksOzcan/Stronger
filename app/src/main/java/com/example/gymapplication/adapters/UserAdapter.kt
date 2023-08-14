@@ -11,7 +11,7 @@ import com.example.gymapplication.models.UserModel
 class UserAdapter(private val userList: ArrayList<UserModel>) :
     RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
-    private lateinit var mListener: onItemClickListener
+    private var mListener: onItemClickListener? = null
 
     interface onItemClickListener{
         fun onItemClick(position: Int)
@@ -38,13 +38,13 @@ class UserAdapter(private val userList: ArrayList<UserModel>) :
         return userList.size
     }
 
-class ViewHolder( itemView: View, clickListener: onItemClickListener) : RecyclerView.ViewHolder(itemView) {
+class ViewHolder( itemView: View, clickListener: onItemClickListener?) : RecyclerView.ViewHolder(itemView) {
 
     val tvUserName : TextView = itemView.findViewById(R.id.tvUserName)
 
     init {
         itemView.setOnClickListener{
-            clickListener.onItemClick(adapterPosition)
+            clickListener?.onItemClick(adapterPosition)
         }
     }
 }

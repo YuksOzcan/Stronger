@@ -2,14 +2,18 @@ package com.example.gymapplication.activities.users
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapplication.R
+import com.example.gymapplication.adapters.NestedWorkoutAdapter
 import com.example.gymapplication.adapters.UserAdapter
 import com.example.gymapplication.models.UserModel
+import com.example.gymapplication.models.WorkoutModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 class FetchingActivity :AppCompatActivity(){
@@ -18,11 +22,7 @@ class FetchingActivity :AppCompatActivity(){
     private lateinit var tvLoadingdata:TextView
     private lateinit var userList:ArrayList<UserModel>
     private lateinit var dbRef : DatabaseReference
-
-
-
-
-
+    private lateinit var trainerList:ArrayList<UserModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,7 @@ class FetchingActivity :AppCompatActivity(){
         tvLoadingdata=findViewById(R.id.tvLoadingData)
 
         userList= arrayListOf()
-
+        trainerList = arrayListOf()
         getUsersData()
 
     }
@@ -43,11 +43,18 @@ class FetchingActivity :AppCompatActivity(){
         userRecyclerView.visibility=View.GONE
         tvLoadingdata.visibility= View.VISIBLE
 
-
         val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
         dbRef = FirebaseDatabase.getInstance(customUrl).getReference("Users")
+        dbRef.orderByChild("userType").equalTo("PT").addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (userSnapshot in dataSnapshot.children) {
+                    val user = userSnapshot.getValue(UserModel::class.java)
+                    if (user != null) {
+                        trainerList.add(user)
+                    }
+                }
 
-        dbRef.addValueEventListener(object :ValueEventListener{
+            dbRef.addValueEventListener(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                    userList.clear()
                     if (snapshot.exists()){
@@ -57,20 +64,13 @@ class FetchingActivity :AppCompatActivity(){
                         }
                         val mAdapter = UserAdapter(userList)
                         userRecyclerView.adapter=mAdapter
-//burada seçileni arraylist'e ekliceksin
-
-
 
                         mAdapter.setOnItemClickListener(object : UserAdapter.onItemClickListener {
                             override fun onItemClick(position: Int) {
                                 val intent = Intent(this@FetchingActivity, UserDetailsActivity::class.java)
 
-                                intent.putExtra("userId",userList[position].userId)
-                                intent.putExtra("userName",userList[position].userName)
-                                intent.putExtra("userEmail",userList[position].userEmail)
-                                intent.putExtra("userPT",userList[position].userPT)
-                                intent.putExtra("userType",userList[position].userType)
-                                intent.putExtra("userStatus",userList[position].userStatus)
+                                intent.putExtra("user",userList[position])
+                                intent.putExtra("trainerList",trainerList)
                                 startActivity(intent)
 
                             }
@@ -88,5 +88,12 @@ class FetchingActivity :AppCompatActivity(){
         })
 
 
+    }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        }
+        )
     }
 }

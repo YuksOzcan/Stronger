@@ -37,7 +37,6 @@ class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
     private val calendarList2 = ArrayList<CalendarModel>()
     private lateinit var btnWorkoutRoutine : Button
     private var selectedDate:String? = null
-    private lateinit var tvWorkoutName : TextView
     private lateinit var tvDate: TextView
     private lateinit var dbRef:DatabaseReference
     private lateinit var rvOuter:RecyclerView
@@ -49,7 +48,6 @@ class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
         setContentView(R.layout.activity_home)
 
         btnWorkoutRoutine= findViewById(R.id.btnAddWorkoutToday)
-        tvWorkoutName = findViewById(R.id.tvHomeWorkoutName)
         tvDate = findViewById(R.id.tvHomeDate)
         rvOuter = findViewById(R.id.rvWorkoutOuter)
         workoutList = arrayListOf()
@@ -79,8 +77,7 @@ class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
 
     }
     private fun getWorkouts() {
-        val customUrl =
-            "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
+        val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
         dbRef = FirebaseDatabase.getInstance(customUrl).getReference("SelectedWorkouts")
         val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
         val currentUserId = mAuth.currentUser?.uid
@@ -97,7 +94,6 @@ class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
                             workoutList.add(workout!!)
                             val mAdapter = NestedWorkoutAdapter(workoutList)
                             rvOuter.adapter=mAdapter
-                            tvWorkoutName.text = workout.workoutName
                         }
                     }
                 } else {

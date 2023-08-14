@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -15,8 +16,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gymapplication.R
+import com.example.gymapplication.models.ExerciseModel
 import com.example.gymapplication.models.UserModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class UserDetailsActivity :AppCompatActivity() {
 
@@ -26,6 +32,7 @@ class UserDetailsActivity :AppCompatActivity() {
     private lateinit var tvUserEmail: TextView
     private lateinit var tvUserPT: TextView
     private lateinit var tvUserType: TextView
+    private lateinit var currentUser : ArrayList<UserModel>
 
 
     private lateinit var btnUpdate: Button
@@ -37,8 +44,10 @@ class UserDetailsActivity :AppCompatActivity() {
         setContentView(R.layout.activity_user_details)
 
 
+
         initView()
         setValuesToViews()
+        checkUser()
 
         btnUpdate.setOnClickListener{
             openUpdateDialog(
@@ -52,6 +61,30 @@ class UserDetailsActivity :AppCompatActivity() {
             )
         }
 
+    }
+    private fun checkUser() {
+        val customUrl =
+            "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
+        val dbRef = FirebaseDatabase.getInstance(customUrl).getReference("Users")
+        val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+        val currentUserId = mAuth.currentUser?.uid
+        dbRef.orderByChild("userId").equalTo(currentUserId).addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (userSnapshot in dataSnapshot.children) {
+                    val user = userSnapshot.getValue(UserModel::class.java)
+                    if (user?.userType == "PT") {
+                        btnDelete.visibility = View.GONE
+                        btnUpdate.visibility = View.GONE
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        }
+        )
     }
 
     private fun deleteRecord(id:String){
@@ -85,19 +118,21 @@ class UserDetailsActivity :AppCompatActivity() {
     }
 
     private fun setValuesToViews() {
-        tvUserId.text = intent.getStringExtra("userId")
-        tvUserName.text = intent.getStringExtra("userName")
-        tvUserStatus.text=intent.getStringExtra("userStatus")
-        tvUserEmail.text=intent.getStringExtra("userEmail")
-        tvUserType.text=intent.getStringExtra("userType")
-        tvUserPT.text=intent.getStringExtra("userPT")
-
-    }
+        val user = intent.getSerializableExtra("user") as? UserModel
+            tvUserId.text = user?.userId.toString()
+            tvUserName.text = user?.userName.toString()
+            tvUserStatus.text= user?.userStatus.toString()
+            tvUserEmail.text= user?.userEmail.toString()
+            tvUserType.text=user?.userType.toString()
+            tvUserPT.text=user?.userPT.toString()
+        }
 
     private fun openUpdateDialog(userId: String, userName: String) {
         val mDialog = AlertDialog.Builder(this)
         val inflater = layoutInflater
         val mDialogView = inflater.inflate(R.layout.update_dialog, null)
+        var selectedUser: UserModel? = null
+
 
         mDialog.setView(mDialogView)
 
@@ -110,11 +145,42 @@ class UserDetailsActivity :AppCompatActivity() {
         val typeAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, userTypesArray)
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         sUserType.adapter = typeAdapter
-
+        val trainerList = intent.getSerializableExtra("trainerList") as? ArrayList<UserModel> ?: ArrayList()
         val sUserStatus = mDialogView.findViewById<Spinner>(R.id.sUserStatus)
         val statusAdapter = ArrayAdapter(this,android.R.layout.simple_spinner_item,userStatusArray)
         statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         sUserStatus.adapter=statusAdapter
+
+
+        val sPt = mDialogView.findViewById<Spinner>(R.id.sPersonalTrainer)
+
+        val trainerAdapter = object : ArrayAdapter<UserModel>(this, android.R.layout.simple_spinner_item, trainerList) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                val textView = view as TextView
+                textView.text = getItem(position)?.userName
+                return view
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                val textView = view as TextView
+                textView.text = getItem(position)?.userName
+                return view
+            }
+        }
+        sPt.adapter = trainerAdapter
+
+        sPt.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                selectedUser = parent?.getItemAtPosition(position) as UserModel
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
         val userType = intent.getStringExtra("userType")
         val userTypeIndex = userTypesArray.indexOf(userType)
 
@@ -135,7 +201,6 @@ class UserDetailsActivity :AppCompatActivity() {
 
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                // Not implemented
             }
         }
 
@@ -146,7 +211,6 @@ class UserDetailsActivity :AppCompatActivity() {
 
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                // Not implemented
             }
         }
 
@@ -182,23 +246,19 @@ class UserDetailsActivity :AppCompatActivity() {
             val updatedUserEmail = etUserEmail.text.toString()
             val updatedUserType = tvUserType.text.toString()
             val updatedUserStatus = tvUserStatus.text.toString()
+            val updatedUserPt=selectedUser?.userName.toString()
+            val updatedUserPtid=selectedUser?.userId.toString()
 
             if (updatedUserStatus== userStatusArray[0] && (updatedUserType != userTypesArray[3] )){
                 Toast.makeText(this,"You can not make"+updatedUserType.toString()+"Passive",Toast.LENGTH_LONG).show()
             }
             else {
 
-                updateUserData(
-                    userId,
-                    updatedUserName,
-                    updatedUserEmail,
-                    updatedUserStatus,
-                    "none",
-                    updatedUserType
-                )
+                updateUserData(userId, updatedUserName, updatedUserEmail, updatedUserStatus, updatedUserPt, updatedUserType, updatedUserPtid)
 
                 tvUserName.text = etUserName.text.toString()
                 tvUserEmail.text = etUserEmail.text.toString()
+                tvUserPT.text=selectedUser?.userName.toString()
 
 
                 alertDialog.dismiss()
@@ -207,12 +267,26 @@ class UserDetailsActivity :AppCompatActivity() {
 
 
     }
-    private fun updateUserData(id: String, name: String,email:String, status: String, PT: String, type:String) {
+    private fun updateUserData(id: String, name: String,email:String, status: String, PT: String?, type:String, PTid: String?) {
 
         val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
 
         val dbref = FirebaseDatabase.getInstance(customUrl).getReference("Users").child(id)
-        val userInfo = UserModel(id, name, email,status,PT,type)
-        dbref.setValue(userInfo)
+
+        val updates = hashMapOf<String,Any>(
+            "userId" to id,
+            "userName" to name,
+            "userEmail" to email,
+            "userStatus" to status,
+            "userType" to type,
+        )
+        PT?.let {
+            updates["userPT"] = it
+        }
+
+        PTid?.let {
+            updates["userPTid"] = it
+        }
+        dbref.setValue(updates)
     }
 }

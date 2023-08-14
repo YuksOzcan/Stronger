@@ -22,6 +22,7 @@ class AdminHomeActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var btnHomePage:Button
     private lateinit var dbRef:DatabaseReference
+    private lateinit var btnPT:Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +38,17 @@ class AdminHomeActivity : AppCompatActivity() {
         btnSignOut=findViewById(R.id.btnAdminSignOut)
         btnHomePage=findViewById(R.id.btnHome)
         btnAddExercises=findViewById(R.id.btnListedExercises)
+        btnPT=findViewById(R.id.btnGoToPT_Section)
+
 
         btnSignOut.setOnClickListener{
             auth.signOut()
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(Intent(this, MainActivity::class.java))
+        }
+        btnPT.setOnClickListener{
+            val intent = Intent(this,PersonalTrainerActivity::class.java)
+            startActivity(intent)
         }
 
 

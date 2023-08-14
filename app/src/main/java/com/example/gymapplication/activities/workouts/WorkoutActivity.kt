@@ -18,8 +18,6 @@ class WorkoutActivity : AppCompatActivity() {
     private lateinit var btnStart: Button
     private lateinit var tvWorkoutName: TextView
     private lateinit var rvExercises: RecyclerView
-    private lateinit var exerciseList: ArrayList<ExerciseModel>
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_workout)
