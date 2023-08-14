@@ -3,6 +3,7 @@ package com.example.gymapplication.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.SnapHelper
 import com.example.gymapplication.R
 import com.example.gymapplication.activities.workouts.SavedWorkoutActivity
 import com.example.gymapplication.adapters.CalendarAdapter
+import com.example.gymapplication.adapters.NestedWorkoutAdapter
 import com.example.gymapplication.models.CalendarModel
 import com.example.gymapplication.models.WorkoutModel
 import com.google.firebase.auth.FirebaseAuth
@@ -29,7 +31,6 @@ import com.google.firebase.database.ValueEventListener
 class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
 
     private lateinit var rvCalendar: RecyclerView
-
     private val cal = Calendar.getInstance(Locale.ENGLISH)
     private val dates = ArrayList<Date>()
     private lateinit var adapter: CalendarAdapter
@@ -39,6 +40,9 @@ class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
     private lateinit var tvWorkoutName : TextView
     private lateinit var tvDate: TextView
     private lateinit var dbRef:DatabaseReference
+    private lateinit var rvOuter:RecyclerView
+    private lateinit var workoutList:ArrayList<WorkoutModel>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +51,12 @@ class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
         btnWorkoutRoutine= findViewById(R.id.btnAddWorkoutToday)
         tvWorkoutName = findViewById(R.id.tvHomeWorkoutName)
         tvDate = findViewById(R.id.tvHomeDate)
+        rvOuter = findViewById(R.id.rvWorkoutOuter)
+        workoutList = arrayListOf()
+        rvCalendar = findViewById(R.id.rvCalendar)
+        rvOuter.layoutManager=LinearLayoutManager(this)
+        rvOuter.setHasFixedSize(true)
+
 
         btnWorkoutRoutine.setOnClickListener{
             if (selectedDate != null) {
@@ -59,9 +69,6 @@ class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
 
             }
         }
-
-
-        rvCalendar = findViewById(R.id.rvCalendar)
         setUpAdapter()
         setUpCalendar()
     }
@@ -71,32 +78,37 @@ class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
         getWorkouts()
 
     }
-    private fun getWorkouts(){
-        val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
-        dbRef = FirebaseDatabase.getInstance(customUrl).getReference("SelectedWorkout")
+    private fun getWorkouts() {
+        val customUrl =
+            "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
+        dbRef = FirebaseDatabase.getInstance(customUrl).getReference("SelectedWorkouts")
         val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
         val currentUserId = mAuth.currentUser?.uid
+        val combinedKey = "$selectedDate${currentUserId}"
+        val query = dbRef.orderByChild("combinedKey").equalTo(combinedKey)
 
-        val combinedKey = "${currentUserId}_$selectedDate"
-
-        val dbRef = FirebaseDatabase.getInstance().getReference("SelectedWorkout")
-
-        dbRef.orderByKey().equalTo(combinedKey).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    for (workoutSnapshot in snapshot.children) {
+        query.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                workoutList.clear()
+                if (dataSnapshot.exists()) {
+                    for (workoutSnapshot in dataSnapshot.children) {
                         val workout = workoutSnapshot.getValue(WorkoutModel::class.java)
-                        tvWorkoutName.text = workout?.workoutName
+                        if (workout != null) {
+                            workoutList.add(workout!!)
+                            val mAdapter = NestedWorkoutAdapter(workoutList)
+                            rvOuter.adapter=mAdapter
+                            tvWorkoutName.text = workout.workoutName
+                        }
                     }
+                } else {
+                    Log.d("DEBUG", "No data found for the given userId")
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                // Hata oluştuğunda burası çağrılır
-                // Hata mesajını gösterebilir veya loglayabilirsiniz.
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e("DB_ERROR", "Database error: ${databaseError.message}")
             }
         })
-
     }
 
 

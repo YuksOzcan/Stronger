@@ -58,6 +58,26 @@ class SavedWorkoutActivity:AppCompatActivity() {
 
 
     }
+    private fun setSelectedWorkout(date:String,position: Int) {
+        val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
+        dbRef = FirebaseDatabase.getInstance(customUrl).getReference("Workouts")
+        dbRef = FirebaseDatabase.getInstance(customUrl).getReference("SelectedWorkouts")
+        val workoutID =dbRef.push().key!!
+        val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+        val currentUserId = mAuth.currentUser?.uid
+        val workout = WorkoutModel(workoutID,workoutList[position].workoutName,
+            workoutList[position].exercisesList,date+currentUserId.toString())
+        dbRef.child(workoutID).setValue(workout)
+        val intent = Intent(this@SavedWorkoutActivity,WorkoutActivity::class.java)
+        intent.putExtra("WorkoutName", workoutList[position].workoutName)
+        intent.putExtra("ExercisesList", workoutList[position].exercisesList)
+        intent.putExtra("WorkoutList", workoutID)
+        intent.putExtra("Date",date)
+        startActivity(intent)
+
+
+
+    }
 
     private fun getWorkouts(date:String){
         val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
@@ -83,23 +103,7 @@ class SavedWorkoutActivity:AppCompatActivity() {
                                     "You clicked on ${workoutList[position].workoutName}",
                                     Toast.LENGTH_LONG
                                 ).show()
-                                dbRef = FirebaseDatabase.getInstance(customUrl).getReference("SelectedWorkouts")
-                                val workoutID =dbRef.push().key!!
-                                val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
-                                val currentUserId = mAuth.currentUser?.uid
-                                val workout = WorkoutModel(workoutID,workoutList[position].workoutName,
-                                    workoutList[position].exercisesList,date,currentUserId)
-                                dbRef.child(workoutID).setValue(workout)
-                                val intent = Intent(this@SavedWorkoutActivity,WorkoutActivity::class.java)
-                                intent.putExtra("WorkoutName", workoutList[position].workoutName)
-                                intent.putExtra("ExercisesList", workoutList[position].exercisesList)
-                                intent.putExtra("WorkoutList", workoutID)
-                                intent.putExtra("Date",date)
-                                startActivity(intent)
-
-
-
-
+                                setSelectedWorkout(date,position)
                             }
                         })
                     }
