@@ -25,6 +25,7 @@ private lateinit var workoutList:ArrayList<WorkoutModel>
 var boolAssing: Boolean = false
 var date: String? =null
 var ptBooleanReceived: Boolean = false
+var savedDate:String?=null
 
 class SavedWorkoutActivity:AppCompatActivity() {
 
@@ -36,6 +37,7 @@ class SavedWorkoutActivity:AppCompatActivity() {
         date = intent.getStringExtra("Date")
         tvDate.text = date.toString()
         var sharedPref = getSharedPreferences("MyApp", MODE_PRIVATE)
+        savedDate = sharedPref.getString("selectedDate", null)
 
         ptBooleanReceived = intent.getBooleanExtra("ptBoolean", false)
         if (date != null) {
@@ -43,8 +45,22 @@ class SavedWorkoutActivity:AppCompatActivity() {
             getWorkouts(date!!)
 
         } else {
-            date = tvDate.text.toString()
-            openCalendarDialog()
+           if (savedDate!=null) {
+               date = tvDate.text.toString()
+               tvDate.text = savedDate
+               getWorkouts(date!!)
+               with(sharedPref.edit()) {
+                   remove("selectedDate")
+                   commit()
+               }
+
+           }
+            else{
+               openCalendarDialog()
+
+           }
+
+
         }
 
 
@@ -73,7 +89,6 @@ class SavedWorkoutActivity:AppCompatActivity() {
         val inflater = layoutInflater
         val mDialogView = inflater.inflate(R.layout.calendar_dialog, null)
         val calendarDate = mDialogView.findViewById<CalendarView>(R.id.calendarWorkout)
-
         var selectedDate: String? = null
 
         calendarDate.setOnDateChangeListener { _, year, month, dayOfMonth ->
@@ -118,14 +133,12 @@ class SavedWorkoutActivity:AppCompatActivity() {
         if (!boolAssing) {
             workout = WorkoutModel(
                 workoutID, workoutList[position].workoutName,
-                workoutList[position].exercisesList, date + currentUserId
-            )
+                workoutList[position].exercisesList, date + currentUserId)
 
         } else {
             workout = WorkoutModel(
                 workoutID, workoutList[position].workoutName,
-                workoutList[position].exercisesList, date + clientId
-            )
+                workoutList[position].exercisesList, date + clientId)
 
         }
 
@@ -142,12 +155,12 @@ class SavedWorkoutActivity:AppCompatActivity() {
     private fun getWorkouts(date: String) {
         val customUrl =
             "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
-        dbRef = FirebaseDatabase.getInstance(customUrl).getReference("Workouts")
         val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
         val currentUserId = mAuth.currentUser?.uid
-        val userRef =
-            FirebaseDatabase.getInstance(customUrl).getReference("Users").child(currentUserId!!)
-        dbRef.addValueEventListener(object : ValueEventListener {
+        dbRef = FirebaseDatabase.getInstance(customUrl).getReference("Workouts")
+        val  query = dbRef.orderByChild("userId").equalTo(currentUserId)
+
+        query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 workoutList.clear()
                 if (snapshot.exists()) {
