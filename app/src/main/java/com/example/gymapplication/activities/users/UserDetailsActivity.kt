@@ -16,7 +16,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gymapplication.R
-import com.example.gymapplication.models.ExerciseModel
+import com.example.gymapplication.activities.workouts.SavedWorkoutActivity
 import com.example.gymapplication.models.UserModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -32,9 +32,7 @@ class UserDetailsActivity :AppCompatActivity() {
     private lateinit var tvUserEmail: TextView
     private lateinit var tvUserPT: TextView
     private lateinit var tvUserType: TextView
-    private lateinit var currentUser : ArrayList<UserModel>
-
-
+    private lateinit var btnAssign:Button
     private lateinit var btnUpdate: Button
     private lateinit var btnDelete: Button
 
@@ -43,23 +41,33 @@ class UserDetailsActivity :AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_details)
 
-
-
+        var ptBoolean = true
         initView()
         setValuesToViews()
         checkUser()
 
-        btnUpdate.setOnClickListener{
-            openUpdateDialog(
-                intent.getStringExtra("userId").toString(),
-                intent.getStringExtra("userName").toString(),
+        val user = intent.getSerializableExtra("user") as? UserModel
+        val userName = user?.userName
+        val userId = user?.userId
 
-            )
+        btnUpdate.setOnClickListener{
+            if (userId !=null && userName!=null) {
+                openUpdateDialog(userId,userName)
+            }
         }
         btnDelete.setOnClickListener{
             deleteRecord(intent.getStringExtra("userId").toString(),
             )
         }
+        btnAssign.setOnClickListener{
+            val user = intent.getSerializableExtra("user") as? UserModel
+            val intent = Intent(this, SavedWorkoutActivity::class.java)
+            intent.putExtra("ptBoolean",ptBoolean)
+            intent.putExtra("client",user)
+            startActivity(intent)
+
+        }
+
 
     }
     private fun checkUser() {
@@ -115,6 +123,7 @@ class UserDetailsActivity :AppCompatActivity() {
         tvUserType = findViewById(R.id.tvUserType)
         btnUpdate = findViewById(R.id.btnUpdate)
         btnDelete = findViewById(R.id.btnDelete)
+        btnAssign = findViewById(R.id.btnAssignWorkout)
     }
 
     private fun setValuesToViews() {
@@ -264,15 +273,10 @@ class UserDetailsActivity :AppCompatActivity() {
                 alertDialog.dismiss()
             }
         }
-
-
     }
     private fun updateUserData(id: String, name: String,email:String, status: String, PT: String?, type:String, PTid: String?) {
-
         val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
-
         val dbref = FirebaseDatabase.getInstance(customUrl).getReference("Users").child(id)
-
         val updates = hashMapOf<String,Any>(
             "userId" to id,
             "userName" to name,

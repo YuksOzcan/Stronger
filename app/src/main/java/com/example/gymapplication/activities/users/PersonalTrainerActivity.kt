@@ -21,6 +21,7 @@ class PersonalTrainerActivity : AppCompatActivity() {
     private lateinit var clientList: ArrayList<UserModel>
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pt)
@@ -54,7 +55,10 @@ class PersonalTrainerActivity : AppCompatActivity() {
 
                             mAdapter.setOnItemClickListener(object :UserAdapter.onItemClickListener{
                                 override fun onItemClick(position: Int) {
-                              //      val intent : Intent(this, ClientDetailsActivity::class.java)
+                                    val intent = Intent(this@PersonalTrainerActivity,UserDetailsActivity::class.java)
+                                    intent.putExtra("user",clientList[position])
+                                    startActivity(intent)
+
                                 }
                             })
 

@@ -24,6 +24,7 @@ class FetchingActivity :AppCompatActivity(){
     private lateinit var dbRef : DatabaseReference
     private lateinit var trainerList:ArrayList<UserModel>
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fetch)
