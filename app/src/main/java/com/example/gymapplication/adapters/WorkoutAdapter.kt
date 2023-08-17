@@ -28,7 +28,12 @@ class WorkoutAdapter ( private val workoutList: ArrayList<WorkoutModel>)
 
     override fun onBindViewHolder(holder:ViewHolder , position:Int){
         val selectedWorkout = workoutList[position]
-        holder.tv_workout_name.text=selectedWorkout.workoutName
+        if (selectedWorkout.workoutDate!=null) {
+            holder.tv_workout_name.text=selectedWorkout.workoutDate + " / " + selectedWorkout.workoutName
+        }
+        else {
+            holder.tv_workout_name.text = selectedWorkout.workoutName
+        }
         holder.itemView.setOnClickListener{
             mListener?.onItemClick(position)
         }
@@ -41,7 +46,4 @@ class WorkoutAdapter ( private val workoutList: ArrayList<WorkoutModel>)
     class ViewHolder(itemview:View): RecyclerView.ViewHolder(itemview){
         val tv_workout_name:TextView= itemview.findViewById(R.id.tv_workout_name)
     }
-
-
-
 }

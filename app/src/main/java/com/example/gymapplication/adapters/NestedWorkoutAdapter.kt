@@ -13,9 +13,18 @@ import com.example.gymapplication.models.WorkoutModel
     class NestedWorkoutAdapter ( private val workoutList: ArrayList<WorkoutModel>)
         : RecyclerView.Adapter<NestedWorkoutAdapter.ViewHolder>(){
 
+        private var mListener: onItemClickListener? = null
+
+        interface onItemClickListener{
+            fun onItemClick(position: Int)
+        }
+        fun setOnItemClickListener(clickListener: NestedWorkoutAdapter.onItemClickListener){
+            mListener= clickListener
+        }
+
         override fun onCreateViewHolder(parent: ViewGroup, position: Int):ViewHolder{
             val itemView= LayoutInflater.from(parent.context).inflate(R.layout.outer_workout_item,parent,false)
-            return ViewHolder(itemView)
+            return ViewHolder(itemView,mListener)
         }
 
         override fun onBindViewHolder(holder:ViewHolder , position:Int){
@@ -27,16 +36,21 @@ import com.example.gymapplication.models.WorkoutModel
                 holder.rvWorkoutMiddle.layoutManager = LinearLayoutManager(holder.itemView.context)
                 holder.rvWorkoutMiddle.adapter = middleAdapter
             }
-
         }
 
         override fun getItemCount(): Int {
             return workoutList.size
         }
 
-        class ViewHolder(itemview: View): RecyclerView.ViewHolder(itemview){
+        class ViewHolder(itemview: View, clickListener: onItemClickListener?): RecyclerView.ViewHolder(itemview){
             val tvWorkoutName: TextView = itemview.findViewById(R.id.tvWorkoutName)
             val rvWorkoutMiddle : RecyclerView = itemview.findViewById(R.id.rvWorkoutMiddle)
+
+            init {
+                itemView.setOnClickListener{
+                    clickListener?.onItemClick(adapterPosition)
+                }
+            }
 
         }
 

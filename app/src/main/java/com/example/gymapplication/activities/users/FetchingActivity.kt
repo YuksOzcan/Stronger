@@ -9,11 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapplication.R
-import com.example.gymapplication.adapters.NestedWorkoutAdapter
 import com.example.gymapplication.adapters.UserAdapter
 import com.example.gymapplication.models.UserModel
-import com.example.gymapplication.models.WorkoutModel
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 class FetchingActivity :AppCompatActivity(){

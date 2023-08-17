@@ -13,9 +13,13 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import com.example.gymapplication.R
+import com.example.gymapplication.activities.users.UserDetailsActivity
 import com.example.gymapplication.activities.workouts.SavedWorkoutActivity
+import com.example.gymapplication.activities.workouts.WorkoutActivity
+import com.example.gymapplication.activities.workouts.date
 import com.example.gymapplication.adapters.CalendarAdapter
 import com.example.gymapplication.adapters.NestedWorkoutAdapter
+import com.example.gymapplication.adapters.UserAdapter
 import com.example.gymapplication.models.CalendarModel
 import com.example.gymapplication.models.WorkoutModel
 import com.google.firebase.auth.FirebaseAuth
@@ -94,6 +98,19 @@ class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
                             workoutList.add(workout!!)
                             val mAdapter = NestedWorkoutAdapter(workoutList)
                             rvOuter.adapter=mAdapter
+
+
+                            mAdapter.setOnItemClickListener(object : NestedWorkoutAdapter.onItemClickListener {
+                                override fun onItemClick(position: Int) {
+                                    val intent = Intent(this@HomeActivity, WorkoutActivity::class.java)
+                                    intent.putExtra("Date", date)
+                                    intent.putExtra("WorkoutName", workoutList[position].workoutName)
+                                    intent.putExtra("ExercisesList", workoutList[position].exercisesList)
+                                    intent.putExtra("WorkoutList", workoutList[position].workoutID)
+                                    startActivity(intent)
+
+                                }
+                            })
                         }
                     }
                 } else {

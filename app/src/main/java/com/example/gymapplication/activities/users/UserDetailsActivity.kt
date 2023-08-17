@@ -15,14 +15,21 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapplication.R
+import com.example.gymapplication.activities.workouts.PastWorkoutActivity
 import com.example.gymapplication.activities.workouts.SavedWorkoutActivity
+import com.example.gymapplication.adapters.WorkoutAdapter
 import com.example.gymapplication.models.UserModel
+import com.example.gymapplication.models.WorkoutModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.security.cert.TrustAnchor
 
 class UserDetailsActivity :AppCompatActivity() {
 
@@ -35,6 +42,10 @@ class UserDetailsActivity :AppCompatActivity() {
     private lateinit var btnAssign:Button
     private lateinit var btnUpdate: Button
     private lateinit var btnDelete: Button
+    private lateinit var rvWorkouts:RecyclerView
+    private lateinit var dbRef:DatabaseReference
+    private lateinit var workoutList:ArrayList<WorkoutModel>
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,9 +53,12 @@ class UserDetailsActivity :AppCompatActivity() {
         setContentView(R.layout.activity_user_details)
 
         var ptBoolean = true
+        workoutList = ArrayList()
+
         initView()
         setValuesToViews()
         checkUser()
+        getWorkouts()
 
         val user = intent.getSerializableExtra("user") as? UserModel
         val userName = user?.userName
@@ -124,6 +138,9 @@ class UserDetailsActivity :AppCompatActivity() {
         btnUpdate = findViewById(R.id.btnUpdate)
         btnDelete = findViewById(R.id.btnDelete)
         btnAssign = findViewById(R.id.btnAssignWorkout)
+        rvWorkouts=findViewById(R.id.rvPastWorkouts)
+        rvWorkouts.layoutManager=LinearLayoutManager(this)
+        rvWorkouts.setHasFixedSize(true)
     }
 
     private fun setValuesToViews() {
@@ -135,6 +152,45 @@ class UserDetailsActivity :AppCompatActivity() {
             tvUserType.text=user?.userType.toString()
             tvUserPT.text=user?.userPT.toString()
         }
+
+    private fun getWorkouts() {
+        val customUrl =
+            "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
+        dbRef = FirebaseDatabase.getInstance(customUrl).getReference("SelectedWorkouts")
+        val client = intent.getSerializableExtra("user") as? UserModel
+        val  query = dbRef.orderByChild("userId").equalTo(client?.userId.toString())
+
+
+        query.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                workoutList.clear()
+                if (snapshot.exists()) {
+                    for (userSnap in snapshot.children) {
+                        val workoutData = userSnap.getValue(WorkoutModel::class.java)
+                        if(workoutData != null) {
+                            workoutList.add(workoutData)
+                            val mAdapter = WorkoutAdapter(workoutList)
+                            rvWorkouts.adapter = mAdapter
+                            mAdapter.setOnItemClickListener(object :
+                                WorkoutAdapter.onItemClickListener {
+                                override fun onItemClick(position: Int) {
+                                    val intent=Intent(this@UserDetailsActivity,PastWorkoutActivity::class.java)
+                                    intent.putExtra("workout",workoutList[position])
+                                    intent.putExtra("user",client)
+                                    startActivity(intent)
+
+                                }
+                            })
+                    }
+                }
+            }
+        }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
 
     private fun openUpdateDialog(userId: String, userName: String) {
         val mDialog = AlertDialog.Builder(this)

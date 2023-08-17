@@ -130,12 +130,12 @@ class SavedWorkoutActivity:AppCompatActivity() {
         if (!boolAssing) {
             workout = WorkoutModel(
                 workoutID, workoutList[position].workoutName,
-                workoutList[position].exercisesList, date + currentUserId)
+                workoutList[position].exercisesList, date + currentUserId,currentUserId,date)
 
         } else {
             workout = WorkoutModel(
                 workoutID, workoutList[position].workoutName,
-                workoutList[position].exercisesList, date + clientId)
+                workoutList[position].exercisesList, date + clientId,clientId,date)
 
         }
 

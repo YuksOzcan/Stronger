@@ -9,9 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapplication.R
 import com.example.gymapplication.adapters.ExerciseAdapter
+import com.example.gymapplication.adapters.MiddleWorkoutAdapter
 import com.example.gymapplication.models.ExerciseModel
-import com.example.gymapplication.models.WorkoutModel
-import com.google.firebase.database.*
 
 class WorkoutActivity : AppCompatActivity() {
 
@@ -46,13 +45,10 @@ class WorkoutActivity : AppCompatActivity() {
 
     private fun getExercises() {
         val exercisesArray = intent.getSerializableExtra("ExercisesList") as? ArrayList<ExerciseModel> ?: ArrayList()
-        val mAdapter = ExerciseAdapter(exercisesArray)
+        val mAdapter = MiddleWorkoutAdapter(exercisesArray)
         rvExercises.adapter = mAdapter
 
-        mAdapter.setOnItemClickListener(object : ExerciseAdapter.onItemClickListener {
-            override fun onItemClick(position: Int) {
 
-            }
-        })
+
     }
 }
