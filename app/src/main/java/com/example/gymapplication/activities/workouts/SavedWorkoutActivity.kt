@@ -53,14 +53,11 @@ class SavedWorkoutActivity:AppCompatActivity() {
                    remove("selectedDate")
                    commit()
                }
-
            }
             else{
                openCalendarDialog()
 
            }
-
-
         }
 
 

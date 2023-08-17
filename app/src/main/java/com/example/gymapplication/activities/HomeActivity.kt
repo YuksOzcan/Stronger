@@ -83,10 +83,10 @@ class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
         val currentUserId = mAuth.currentUser?.uid
         val combinedKey = "$selectedDate${currentUserId}"
         val query = dbRef.orderByChild("combinedKey").equalTo(combinedKey)
-
+        workoutList.clear()
+        rvOuter.adapter=null
         query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                workoutList.clear()
                 if (dataSnapshot.exists()) {
                     for (workoutSnapshot in dataSnapshot.children) {
                         val workout = workoutSnapshot.getValue(WorkoutModel::class.java)
