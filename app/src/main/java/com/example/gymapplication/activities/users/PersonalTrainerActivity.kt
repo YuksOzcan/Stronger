@@ -3,11 +3,13 @@ package com.example.gymapplication.activities.users
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapplication.R
+import com.example.gymapplication.activities.workouts.SavedWorkoutActivity
 import com.example.gymapplication.adapters.UserAdapter
 import com.example.gymapplication.models.UserModel
 import com.google.firebase.auth.FirebaseAuth
@@ -19,6 +21,7 @@ class PersonalTrainerActivity : AppCompatActivity() {
     private lateinit var tvClientName:TextView
     private lateinit var dbRef:DatabaseReference
     private lateinit var clientList: ArrayList<UserModel>
+    private lateinit var btnShare:Button
 
 
 
@@ -28,10 +31,24 @@ class PersonalTrainerActivity : AppCompatActivity() {
 
         rvClient=findViewById(R.id.rvClients)
         tvClientName=findViewById(R.id.tvPT_clientsName)
+        btnShare=findViewById(R.id.btnShare)
         rvClient.layoutManager=LinearLayoutManager(this)
         rvClient.setHasFixedSize(true)
         clientList= arrayListOf()
         getVIPusers()
+
+        btnShare.setOnClickListener{
+            shareRoutine()
+        }
+
+    }
+
+    private fun shareRoutine(){
+
+        val intent=Intent(this,SavedWorkoutActivity::class.java)
+        val share=true
+        intent.putExtra("share",share)
+        startActivity(intent)
 
     }
 

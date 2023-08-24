@@ -6,50 +6,63 @@
     android:layout_height="match_parent"
     tools:context=".activities.workouts.SavedWorkoutActivity">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnCreateRoutine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="600dp"
-        android:text="Create a Routine"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
+    <!-- Personal Workout Routines TextView -->
     <TextView
-        android:id="@+id/tvSelectedDate"
+        android:id="@+id/tvPersonal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="150dp"
-        android:text="Selected Date"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="150dp"
-        android:layout_marginBottom="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnCreateRoutine"
+        android:layout_marginTop="16dp"
+        android:text="Personal Workout Routines"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Personal Workouts RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSavedWorkouts"
-        android:layout_width="401dp"
-        android:layout_height="470dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="170dp"
-        android:layout_marginEnd="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.032"
+        app:layout_constraintTop_toBottomOf="@id/tvPersonal"
+        app:layout_constraintBottom_toTopOf="@+id/tvProfessional"
         tools:listitem="@layout/saved_workout_items" />
 
+    <!-- Professional Workout Routines TextView -->
+    <TextView
+        android:id="@+id/tvProfessional"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Professional Workout Routines"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rvSavedWorkouts" />
+
+    <!-- Professional Workouts RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvProfessionalWorkouts"
+        android:layout_width="404dp"
+        android:layout_height="308dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnCreateRoutine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvProfessional"
+        tools:listitem="@layout/saved_workout_items" />
+
+    <!-- Create a Routine Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCreateRoutine"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:text="Create a Routine"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
