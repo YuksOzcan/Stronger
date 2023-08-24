@@ -7,31 +7,54 @@
     android:background="@color/black"
     tools:context=".activities.MainActivity">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnGoogleSignIn"
+
+    <ImageView
+        android:id="@+id/imgMainStronger"
+        android:layout_width="320dp"
+        android:layout_height="245dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvMainLogo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/biceps" />
+
+
+    <TextView
+        android:id="@+id/tvMainLogo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:background="@color/white"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="STRONGER"
+        android:textColor="#FFF"
+        android:textSize="45dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnGoogleSignIn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgMainStronger"
+        app:layout_constraintVertical_bias="0.296" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnGoogleSignIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:layout_marginBottom="50dp"
         android:text="Sign in"
-        android:textColor="@color/white"
+        android:backgroundTint="#4CAF50"
+        android:textColor="#FFF"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvMainLogo">
 
     </com.google.android.material.button.MaterialButton>
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="370dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="150dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/googlelogo" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gymapplication.R
@@ -18,12 +20,18 @@ class InsertionActivity : AppCompatActivity() {
     private lateinit var etName: EditText
     private lateinit var btnSave : Button
     private lateinit var dbRef: DatabaseReference
+    private lateinit var tvName: TextView
+    private lateinit var tvAdv:TextView
+    private lateinit var imgLogo: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_insert)
 
         etName =findViewById(R.id.edit_name)
         btnSave=findViewById(R.id.btnSaveData)
+        tvName=findViewById(R.id.tvInsertLogo)
+        tvAdv=findViewById(R.id.tvInsertAdv)
+        imgLogo=findViewById(R.id.imgStronger)
 
         val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
         dbRef= FirebaseDatabase.getInstance(customUrl).getReference("Users")

@@ -60,15 +60,8 @@
                             ExerciseAdapter.onItemClickListener {
                             override fun onItemClick(position: Int) {
                                 selectedExercisesList.add(exerciseList[position])
-                                Toast.makeText(
-                                    this@ChooseExercisesActivity,
-                                    "You clicked on ${exerciseList[position].exerciseName}",
-                                    Toast.LENGTH_LONG
-                                ).show()
-
                             }
                         })
-//burada seçileni arraylist'e ekliceksin
                     }
                 }
 

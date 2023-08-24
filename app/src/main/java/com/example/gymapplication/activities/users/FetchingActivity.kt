@@ -16,7 +16,6 @@ import com.google.firebase.database.*
 class FetchingActivity :AppCompatActivity(){
 
     private lateinit var userRecyclerView: RecyclerView
-    private lateinit var tvLoadingdata:TextView
     private lateinit var userList:ArrayList<UserModel>
     private lateinit var dbRef : DatabaseReference
     private lateinit var trainerList:ArrayList<UserModel>
@@ -29,7 +28,6 @@ class FetchingActivity :AppCompatActivity(){
         userRecyclerView=findViewById(R.id.rvUser)
         userRecyclerView.layoutManager = LinearLayoutManager(this)
         userRecyclerView.setHasFixedSize(true)
-        tvLoadingdata=findViewById(R.id.tvLoadingData)
 
         userList= arrayListOf()
         trainerList = arrayListOf()
@@ -38,9 +36,6 @@ class FetchingActivity :AppCompatActivity(){
     }
 
     private fun getUsersData(){
-        userRecyclerView.visibility=View.GONE
-        tvLoadingdata.visibility= View.VISIBLE
-
         val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
         dbRef = FirebaseDatabase.getInstance(customUrl).getReference("Users")
         dbRef.orderByChild("userType").equalTo("PT").addListenerForSingleValueEvent(object: ValueEventListener {
@@ -73,8 +68,6 @@ class FetchingActivity :AppCompatActivity(){
 
                             }
                         })
-                        userRecyclerView.visibility= View.VISIBLE
-                        tvLoadingdata.visibility = View.GONE
                     }
             }
 
