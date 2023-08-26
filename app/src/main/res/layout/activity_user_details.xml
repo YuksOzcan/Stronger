@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".activities.users.UserDetailsActivity">
 
     <Button
@@ -12,6 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="Update"
+        android:backgroundTint="#4CAF50"
+        android:textColor="#FFF"
         app:layout_constraintEnd_toStartOf="@+id/btnDelete"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,6 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="Delete"
+        android:backgroundTint="#4CAF50"
+        android:textColor="#FFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnUpdate"
@@ -54,7 +59,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.6"
-                android:background="@color/divider_grey">
+                android:background="@drawable/border"
+
+                >
 
                 <TextView
                     android:layout_width="match_parent"
@@ -62,7 +69,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="User id"
-                    android:textColor="@color/black"
+                    android:textColor="#FFF"
                     android:textSize="15sp" />
 
             </LinearLayout>
@@ -72,7 +79,9 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.4">
+                android:layout_weight="1.4"
+                android:background="@drawable/border"
+                >
 
                 <TextView
                     android:id="@+id/tvUserId"
@@ -81,7 +90,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text=""
-                    android:textColor="@color/black"
+                    android:textColor="#FFF"
                     android:textSize="15sp"
 
                     />
@@ -105,7 +114,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.6"
-                android:background="@color/divider_grey">
+                android:background="@drawable/border"
+                >
 
                 <TextView
                     android:layout_width="match_parent"
@@ -113,7 +123,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="User Name"
-                    android:textColor="@color/black"
+                    android:textColor="#FFF"
                     android:textSize="15sp" />
 
             </LinearLayout>
@@ -121,7 +131,8 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.4">
+                android:layout_weight="1.4"
+                android:background="@drawable/border">
 
                 <TextView
                     android:id="@+id/tvUserName"
@@ -130,7 +141,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text=""
-                    android:textColor="@color/black"
+                    android:textColor="#FFF"
                     android:textSize="15sp"
 
                     />
@@ -155,7 +166,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.6"
-                android:background="@color/divider_grey">
+                android:background="@drawable/border"                >
 
                 <TextView
                     android:layout_width="match_parent"
@@ -163,7 +174,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="Email"
-                    android:textColor="@color/black"
+                    android:textColor="#FFF"
                     android:textSize="15sp"
 
 
@@ -174,7 +185,8 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.4">
+                android:layout_weight="1.4"
+                android:background="@drawable/border">
 
                 <TextView
                     android:id="@+id/tvUserEmail"
@@ -183,7 +195,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text=""
-                    android:textColor="@color/black"
+                    android:textColor="#FFF"
                     android:textSize="15sp"
 
                     />
@@ -209,7 +221,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.6"
-                android:background="@color/divider_grey">
+                android:background="@drawable/border"                >
 
                 <TextView
                     android:layout_width="match_parent"
@@ -217,7 +229,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="Status"
-                    android:textColor="@color/black"
+                    android:textColor="#FFF"
                     android:textSize="15sp"
 
 
@@ -228,7 +240,8 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.4">
+                android:layout_weight="1.4"
+                android:background="@drawable/border">
 
                 <TextView
                     android:id="@+id/tvUserStatus"
@@ -237,7 +250,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text=""
-                    android:textColor="@color/black"
+                    android:textColor="#FFF"
                     android:textSize="15sp"
 
                     />
@@ -261,7 +274,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.6"
-                android:background="@color/divider_grey">
+                android:background="@drawable/border"                >
 
                 <TextView
                     android:layout_width="match_parent"
@@ -269,7 +282,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="Personal Trainer"
-                    android:textColor="@color/black"
+                    android:textColor="#FFF"
                     android:textSize="15sp"
 
 
@@ -280,7 +293,8 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.4">
+                android:layout_weight="1.4"
+                android:background="@drawable/border">
 
                 <TextView
                     android:id="@+id/tvUserPT"
@@ -289,7 +303,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text=""
-                    android:textColor="@color/black"
+                    android:textColor="#FFF"
                     android:textSize="15sp"
 
                     />
@@ -313,7 +327,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.6"
-                android:background="@color/divider_grey">
+                android:background="@drawable/border"                >
 
                 <TextView
                     android:layout_width="match_parent"
@@ -321,7 +335,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="Type"
-                    android:textColor="@color/black"
+                    android:textColor="#FFF"
                     android:textSize="15sp"
 
 
@@ -332,7 +346,8 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.4">
+                android:layout_weight="1.4"
+                android:background="@drawable/border">
 
                 <TextView
                     android:id="@+id/tvUserType"
@@ -341,7 +356,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text=""
-                    android:textColor="@color/black"
+                    android:textColor="#FFF"
                     android:textSize="15sp"
 
                     />
@@ -358,6 +373,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="283dp"
         android:text="Assign a Workout"
+        android:backgroundTint="#4CAF50"
+        android:textColor="#FFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -367,13 +384,15 @@
 
     <TextView
         android:id="@+id/tvPastWorkouts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="236dp"
+        android:layout_height="40dp"
         android:layout_marginStart="150dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="150dp"
         android:layout_marginBottom="295dp"
-        android:text="Completed Workouts"
+        android:gravity="center"
+        android:text="User's Workout History"
+        android:textColor="@color/white"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

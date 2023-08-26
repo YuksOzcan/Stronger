@@ -4,20 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".activities.workouts.SavedWorkoutActivity">
 
-    <!-- Personal Workout Routines TextView -->
     <TextView
         android:id="@+id/tvPersonal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
         android:text="Personal Workout Routines"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Personal Workouts RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSavedWorkouts"
         android:layout_width="0dp"
@@ -29,30 +31,32 @@
         app:layout_constraintBottom_toTopOf="@+id/tvProfessional"
         tools:listitem="@layout/saved_workout_items" />
 
-    <!-- Professional Workout Routines TextView -->
     <TextView
         android:id="@+id/tvProfessional"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:textStyle="bold"
+        android:textSize="24dp"
+        android:textColor="#FFFFFF"
         android:text="Professional Workout Routines"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rvSavedWorkouts" />
 
-    <!-- Professional Workouts RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvProfessionalWorkouts"
-        android:layout_width="404dp"
-        android:layout_height="308dp"
+        android:layout_width="401dp"
+        android:layout_height="283dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/btnCreateRoutine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvProfessional"
+        app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/saved_workout_items" />
 
-    <!-- Create a Routine Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCreateRoutine"
         android:layout_width="0dp"
@@ -61,6 +65,8 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="16dp"
         android:text="Create a Routine"
+        android:backgroundTint="#4CAF50"
+        android:textColor="#FFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

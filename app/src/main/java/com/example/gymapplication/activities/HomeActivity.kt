@@ -45,6 +45,7 @@ class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
     private lateinit var dbRef:DatabaseReference
     private lateinit var rvOuter:RecyclerView
     private lateinit var workoutList:ArrayList<WorkoutModel>
+    private lateinit var btnGoHistory:Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,6 +59,7 @@ class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
         rvCalendar = findViewById(R.id.rvCalendar)
         rvOuter.layoutManager=LinearLayoutManager(this)
         rvOuter.setHasFixedSize(true)
+        btnGoHistory=findViewById(R.id.btnGoToHistory)
 
 
         btnWorkoutRoutine.setOnClickListener{

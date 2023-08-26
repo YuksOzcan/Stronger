@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapplication.R
-import com.example.gymapplication.activities.workouts.PastWorkoutActivity
+import com.example.gymapplication.activities.workouts.HistoryActivity
 import com.example.gymapplication.activities.workouts.SavedWorkoutActivity
 import com.example.gymapplication.adapters.WorkoutAdapter
 import com.example.gymapplication.models.UserModel
@@ -29,7 +29,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import java.security.cert.TrustAnchor
 
 class UserDetailsActivity :AppCompatActivity() {
 
@@ -172,7 +171,7 @@ class UserDetailsActivity :AppCompatActivity() {
                             mAdapter.setOnItemClickListener(object :
                                 WorkoutAdapter.onItemClickListener {
                                 override fun onItemClick(position: Int) {
-                                    val intent=Intent(this@UserDetailsActivity,PastWorkoutActivity::class.java)
+                                    val intent=Intent(this@UserDetailsActivity,HistoryActivity::class.java)
                                     intent.putExtra("workout",workoutList[position])
                                     intent.putExtra("user",client)
                                     startActivity(intent)

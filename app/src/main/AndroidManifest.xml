@@ -54,7 +54,7 @@
         <activity
             android:name=".activities.workouts.CreateWorkoutActivity"
             />
-        <activity android:name=".activities.workouts.PastWorkoutActivity"
+        <activity android:name=".activities.workouts.HistoryActivity"
             />
 
         <activity android:name=".activities.workouts.WorkoutActivity"

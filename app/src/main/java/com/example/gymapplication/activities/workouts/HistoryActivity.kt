@@ -13,14 +13,13 @@ import com.example.gymapplication.activities.users.UserDetailsActivity
 import com.example.gymapplication.adapters.NestedWorkoutAdapter
 import com.example.gymapplication.models.UserModel
 import com.example.gymapplication.models.WorkoutModel
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class PastWorkoutActivity:AppCompatActivity() {
+class HistoryActivity:AppCompatActivity() {
 
     private lateinit var tvDate: TextView
     private lateinit var btnPrevious:Button
@@ -30,7 +29,7 @@ class PastWorkoutActivity:AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_past_workout)
+        setContentView(R.layout.activity_history)
         val workout = intent.getSerializableExtra("workout") as? WorkoutModel
         tvDate= findViewById(R.id.tvPastDate)
         btnPrevious=findViewById(R.id.btnPastWorkoutPrevious)

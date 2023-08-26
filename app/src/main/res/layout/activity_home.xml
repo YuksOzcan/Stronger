@@ -3,53 +3,110 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.HomeActivity">
+    tools:context=".activities.HomeActivity"
+    android:background="@color/black">
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCalendar"
-        android:layout_width="69dp"
-        android:layout_height="0dp"
+        android:layout_width="60dp"
+        android:layout_height="624dp"
         android:layout_margin="10dp"
+        android:layout_marginLeft="8dp"
         android:layoutDirection="ltr"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.149"
         tools:listitem="@layout/calendar_item" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAddWorkoutToday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="42dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="44dp"
+        android:backgroundTint="#4CAF50"
         android:text="Add a Workout Routine"
+        android:textColor="#FFF"
         app:layout_constraintStart_toEndOf="@+id/rvCalendar"
         app:layout_constraintTop_toTopOf="parent" />
-
-
-
 
     <TextView
         android:id="@+id/tvHomeDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Date"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:text=""
         app:layout_constraintStart_toEndOf="@+id/rvCalendar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAddWorkoutToday" />
 
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvWorkoutOuter"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/rvCalendar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvHomeDate"
+        android:layout_width="317dp"
+        android:layout_height="429dp"
+        android:layout_marginBottom="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toEndOf="@+id/rvCalendar"
+        app:layout_constraintTop_toBottomOf="@id/tvHomeDate"
+        app:layout_constraintVertical_bias="0.238"
         tools:listitem="@layout/outer_workout_item" />
+
+    <LinearLayout
+        android:layout_width="436dp"
+        android:layout_height="78dp"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvCalendar">
+
+        <Button
+            android:id="@+id/btnGoToHome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Buton 1" />
+
+        <Button
+            android:id="@+id/btnGoToHistory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/history"
+             />
+
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Buton 3" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Buton 4" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Buton 5" />
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
