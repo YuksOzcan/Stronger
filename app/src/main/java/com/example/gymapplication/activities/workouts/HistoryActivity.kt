@@ -27,6 +27,7 @@ class HistoryActivity:AppCompatActivity() {
     private lateinit var dbRef: DatabaseReference
     private lateinit var workoutList:ArrayList<WorkoutModel>
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)

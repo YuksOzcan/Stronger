@@ -14,14 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import com.example.gymapplication.AuthHelper
 import com.example.gymapplication.R
-import com.example.gymapplication.activities.users.UserDetailsActivity
-import com.example.gymapplication.activities.workouts.AddExercisesActivity
 import com.example.gymapplication.activities.workouts.SavedWorkoutActivity
 import com.example.gymapplication.activities.workouts.WorkoutActivity
 import com.example.gymapplication.activities.workouts.date
 import com.example.gymapplication.adapters.CalendarAdapter
 import com.example.gymapplication.adapters.NestedWorkoutAdapter
-import com.example.gymapplication.adapters.UserAdapter
 import com.example.gymapplication.models.CalendarModel
 import com.example.gymapplication.models.WorkoutModel
 import com.google.firebase.auth.FirebaseAuth
@@ -86,6 +83,9 @@ class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
         }
         btnGoProfile.setOnClickListener {
             AuthHelper.profile(this)
+        }
+        btnGoHistory.setOnClickListener {
+            AuthHelper.history(this)
         }
 
 

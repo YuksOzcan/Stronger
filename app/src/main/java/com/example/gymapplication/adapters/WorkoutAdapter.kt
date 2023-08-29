@@ -28,12 +28,12 @@ class WorkoutAdapter ( private val workoutList: ArrayList<WorkoutModel>)
 
     override fun onBindViewHolder(holder:ViewHolder , position:Int){
         val selectedWorkout = workoutList[position]
-        if (selectedWorkout.workoutDate!=null) {
-            holder.tv_workout_name.text=selectedWorkout.workoutDate + " / " + selectedWorkout.workoutName
-        }
-        else {
+     //   if (selectedWorkout.workoutDate!=null) {
+      //      holder.tv_workout_name.text=selectedWorkout.workoutDate + " / " + selectedWorkout.workoutName
+      //  }
+      //  else {
             holder.tv_workout_name.text = selectedWorkout.workoutName
-        }
+     //   }
         holder.itemView.setOnClickListener{
             mListener?.onItemClick(position)
         }

@@ -288,12 +288,8 @@ class UserDetailsActivity :AppCompatActivity() {
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                if (android.util.Patterns.EMAIL_ADDRESS.matcher(etUserEmail.text.toString()).matches()) {
-                    btnUpdateData.isEnabled = true
-                }
-                else{
-                    btnUpdateData.isEnabled=false
-                }
+                btnUpdateData.isEnabled =
+                    android.util.Patterns.EMAIL_ADDRESS.matcher(etUserEmail.text.toString()).matches()
             }
 
         })

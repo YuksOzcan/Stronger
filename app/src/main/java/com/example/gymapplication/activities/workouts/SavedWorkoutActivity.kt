@@ -206,8 +206,6 @@ btnCreateRoutine = findViewById(R.id.btnCreateRoutine)
                                 else{
                                     shareWorkout(position)
                                 }
-
-
                             }
                         })
                     }
@@ -250,8 +248,6 @@ btnCreateRoutine = findViewById(R.id.btnCreateRoutine)
                                 else{
                                     shareWorkout(position)
                                 }
-
-
                             }
                         })
                     }

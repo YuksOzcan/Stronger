@@ -69,6 +69,8 @@
             />
         <activity android:name=".activities.users.ProfileActivity"
             />
+        <activity android:name=".activities.workouts.WorkoutHistoryActivity"
+            />
 
     </application>
 
