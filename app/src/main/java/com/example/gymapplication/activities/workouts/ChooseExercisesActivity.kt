@@ -13,6 +13,7 @@
     import com.example.gymapplication.adapters.UserAdapter
     import com.example.gymapplication.models.ExerciseModel
     import com.example.gymapplication.models.UserModel
+    import com.google.firebase.auth.FirebaseAuth
     import com.google.firebase.database.*
 
     class ChooseExercisesActivity : AppCompatActivity() {
@@ -46,7 +47,10 @@
         private fun getExercises(){
             val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
             dbRef = FirebaseDatabase.getInstance(customUrl).getReference("Exercises")
-            dbRef.addValueEventListener(object : ValueEventListener {
+            val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+            val currentUserId = mAuth.currentUser?.uid
+            val query = dbRef.orderByChild("userId").equalTo(currentUserId)
+            query.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     exerciseList.clear()
                     if (snapshot.exists()) {

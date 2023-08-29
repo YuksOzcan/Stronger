@@ -67,10 +67,11 @@ class AdminHomeActivity : AppCompatActivity() {
         }
         btnAddExercises.setOnClickListener{
             val exercisesArray = resources.getStringArray(R.array.exercises_array)
-
+            val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+            val currentUserId = mAuth.currentUser?.uid
             exercisesArray.forEach { exerciseName ->
                 val exerciseId = dbRef.push().key!!
-                val exercise = ExerciseModel(exerciseId, exerciseName)
+                val exercise = ExerciseModel(currentUserId,exerciseId, exerciseName)
                 dbRef.child(exerciseId).setValue(exercise).addOnSuccessListener {
                     Toast.makeText(this, "Data is inserted Successfully", Toast.LENGTH_LONG).show()
                 }

@@ -65,7 +65,10 @@
             />
         <activity android:name=".activities.users.PersonalTrainerActivity"
             />
-
+        <activity android:name=".activities.workouts.AddExercisesActivity"
+            />
+        <activity android:name=".activities.users.ProfileActivity"
+            />
 
     </application>
 

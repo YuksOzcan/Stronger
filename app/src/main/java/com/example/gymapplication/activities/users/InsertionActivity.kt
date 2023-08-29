@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gymapplication.R
 import com.example.gymapplication.activities.WaitingActivity
+import com.example.gymapplication.models.ExerciseModel
 import com.example.gymapplication.models.UserModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -41,6 +42,21 @@ class InsertionActivity : AppCompatActivity() {
         }
 
     }
+    private fun saveExercises()
+    {
+        val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
+        dbRef= FirebaseDatabase.getInstance(customUrl).getReference("Exercises")
+        val exercisesArray = resources.getStringArray(R.array.exercises_array)
+        val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+        val currentUserId = mAuth.currentUser?.uid
+        exercisesArray.forEach { exerciseName ->
+            val exerciseId = dbRef.push().key!!
+            val exercise = ExerciseModel(currentUserId,exerciseId, exerciseName)
+            dbRef.child(exerciseId).setValue(exercise).addOnSuccessListener {
+                Toast.makeText(this, "Data is inserted Successfully", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
     private fun saveNameData() {
         val usersName = etName.text.toString()
@@ -66,8 +82,7 @@ class InsertionActivity : AppCompatActivity() {
 
                 dbRef.child(currentUserId).setValue(user)
                     .addOnSuccessListener {
-                        Toast.makeText(this, "Data is inserted Successfully", Toast.LENGTH_LONG)
-                            .show()
+                        saveExercises()
                         val intent = Intent(this, WaitingActivity::class.java)
                         startActivity(intent)
 

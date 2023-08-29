@@ -12,8 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
+import com.example.gymapplication.AuthHelper
 import com.example.gymapplication.R
 import com.example.gymapplication.activities.users.UserDetailsActivity
+import com.example.gymapplication.activities.workouts.AddExercisesActivity
 import com.example.gymapplication.activities.workouts.SavedWorkoutActivity
 import com.example.gymapplication.activities.workouts.WorkoutActivity
 import com.example.gymapplication.activities.workouts.date
@@ -46,6 +48,12 @@ class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
     private lateinit var rvOuter:RecyclerView
     private lateinit var workoutList:ArrayList<WorkoutModel>
     private lateinit var btnGoHistory:Button
+    private lateinit var btnGoHome:Button
+    private lateinit var btnGoExercise:Button
+    private lateinit var btnGoSignOut:Button
+    private lateinit var btnGoProfile:Button
+    private lateinit var auth: FirebaseAuth
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +68,25 @@ class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
         rvOuter.layoutManager=LinearLayoutManager(this)
         rvOuter.setHasFixedSize(true)
         btnGoHistory=findViewById(R.id.btnGoToHistory)
+        btnGoHome = findViewById(R.id.btnGoToHome)
+        btnGoExercise= findViewById(R.id.btnGoToExercise)
+        btnGoProfile = findViewById(R.id.btnGoToProfile)
+        btnGoSignOut=findViewById(R.id.btnGoToSignOut)
+        auth = FirebaseAuth.getInstance()
+
+        btnGoExercise.setOnClickListener{
+            AuthHelper.exercise(this)
+        }
+
+        btnGoSignOut.setOnClickListener {
+            AuthHelper.signOut(this,auth)
+        }
+        btnGoHome.setOnClickListener {
+            AuthHelper.home(this)
+        }
+        btnGoProfile.setOnClickListener {
+            AuthHelper.profile(this)
+        }
 
 
         btnWorkoutRoutine.setOnClickListener{
@@ -76,6 +103,7 @@ class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
         setUpAdapter()
         setUpCalendar()
     }
+
     override fun onItemClick(text: String, date: String, day: String) {
         selectedDate=text
         tvDate.text= selectedDate.toString()

@@ -27,5 +27,7 @@
         <item>Military Press</item>
         <item>Arnold Press</item>
     </string-array>
+    <string name="go_to_history">Geçmişe Git</string>
+
 
 </resources>
