@@ -2,6 +2,7 @@ package com.example.gymapplication.activities.workouts
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.CalendarView
 import android.widget.TextView
@@ -22,6 +23,8 @@ private lateinit var btnCreateRoutine: Button
 private lateinit var rvWorkout: RecyclerView
 private lateinit var dbRef: DatabaseReference
 private lateinit var workoutList: ArrayList<WorkoutModel>
+private lateinit var professionalWorkoutList: ArrayList<WorkoutModel>
+
 private lateinit var tvPersonal: TextView
 private lateinit var tvProfessional: TextView
 private lateinit var rvProfessional: RecyclerView
@@ -46,10 +49,14 @@ class SavedWorkoutActivity : AppCompatActivity() {
 
         if (date != null) {
             getWorkouts(date!!)
+            checkUser(date!!)
+
         } else {
             if (savedDate != null) {
                 date = savedDate
                 getWorkouts(date!!)
+                checkUser(date!!)
+
                 with(sharedPref.edit()) {
                     remove("selectedDate")
                     commit()
@@ -59,6 +66,9 @@ class SavedWorkoutActivity : AppCompatActivity() {
                     openCalendarDialog()
                 } else {
                     getWorkouts("Share a Workout")
+
+
+//belki buraya         getProfessionalWorkoouts(date) koyman gerekebilir
                 }
             }
         }
@@ -70,6 +80,7 @@ btnCreateRoutine = findViewById(R.id.btnCreateRoutine)
         rvWorkout.layoutManager = LinearLayoutManager(this)
         rvWorkout.setHasFixedSize(true)
         workoutList = arrayListOf()
+        professionalWorkoutList= arrayListOf()
         tvPersonal=findViewById(R.id.tvPersonal)
         tvProfessional=findViewById(R.id.tvProfessional)
         rvProfessional=findViewById(R.id.rvProfessionalWorkouts)
@@ -101,7 +112,30 @@ btnCreateRoutine = findViewById(R.id.btnCreateRoutine)
         val intent = Intent(this@SavedWorkoutActivity, PersonalTrainerActivity::class.java)
         startActivity(intent)
     }
+    private fun checkUser(date: String) {
+        val customUrl =
+            "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
+        val dbRef = FirebaseDatabase.getInstance(customUrl).getReference("Users")
+        val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+        val currentUserId = mAuth.currentUser?.uid
+        dbRef.orderByChild("userId").equalTo(currentUserId).addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (userSnapshot in dataSnapshot.children) {
+                    val user = userSnapshot.getValue(UserModel::class.java)
+                    if (user?.userStatus == "Active") {
+                        getProfessionalWorkoouts(date)
+                    }
+                    tvProfessional.visibility=View.GONE
+                }
+            }
 
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        }
+        )
+    }
 
 
     private fun openCalendarDialog() {
@@ -173,7 +207,7 @@ btnCreateRoutine = findViewById(R.id.btnCreateRoutine)
 
 
     private fun getWorkouts(date: String) {
-        getProfessionalWorkoouts(date)
+       // getProfessionalWorkoouts(date)
         val customUrl =
             "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
         val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -220,27 +254,20 @@ btnCreateRoutine = findViewById(R.id.btnCreateRoutine)
     private fun getProfessionalWorkoouts(date: String) {
         val customUrl =
             "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
-        val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
-        val currentUserId = mAuth.currentUser?.uid
         dbRef = FirebaseDatabase.getInstance(customUrl).getReference("ProfessionalWorkouts")
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                workoutList.clear()
+                professionalWorkoutList.clear()
                 if (snapshot.exists()) {
                     for (userSnap in snapshot.children) {
                         val workoutData = userSnap.getValue(WorkoutModel::class.java)
-                        workoutList.add(workoutData!!)
-                        val mAdapter = WorkoutAdapter(workoutList)
+                        professionalWorkoutList.add(workoutData!!)
+                        val mAdapter = WorkoutAdapter(professionalWorkoutList)
                         rvProfessional.adapter = mAdapter
                         mAdapter.setOnItemClickListener(object :
                             WorkoutAdapter.onItemClickListener {
                             override fun onItemClick(position: Int) {
 
-                                Toast.makeText(
-                                    this@SavedWorkoutActivity,
-                                    "You clicked on ${workoutList[position].workoutName}",
-                                    Toast.LENGTH_LONG
-                                ).show()
 
                                 if (!ptBooleanShare) {
                                     setSelectedWorkout(date, position)
