@@ -4,91 +4,107 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".activities.users.AdminHomeActivity">
-
-
-    <Button
-        android:id="@+id/btnInsert"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="500dp"
-        android:text="Insert Data"
-        app:layout_constraintBottom_toTopOf="@+id/btnAdminSignOut"
+    <ImageView
+        android:id="@+id/imgMainStronger"
+        android:layout_width="320dp"
+        android:layout_height="245dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvMainLogo"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/biceps" />
+
+
+    <TextView
+        android:id="@+id/tvMainLogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="STRONGER"
+        android:textColor="#FFF"
+        android:textSize="45dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgMainStronger"
+        app:layout_constraintVertical_bias="0.296" />
+
 
     <Button
         android:id="@+id/btnFetch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="10dp"
-        android:text="Fetch Data"
-        app:layout_constraintBottom_toTopOf="@+id/btnAdminSignOut"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnInsert" />
-
-
-    <Button
-        android:id="@+id/btnHome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="400dp"
-        android:text="Home"
-        app:layout_constraintBottom_toTopOf="@+id/btnAdminSignOut"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnFetch" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnAdminSignOut"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sign out"
-        android:textStyle="bold"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="450dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnFetch" />
-
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnListedExercises"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="343dp"
-        android:text="Add listed Exercises"
-        android:textStyle="bold"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="110dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="#4CAF50"
+        android:text="Users Information"
+        android:textColor="#FFF"
         app:layout_constraintBottom_toTopOf="@+id/btnAdminSignOut"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnHome" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnGoToPT_Section"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/btnHome"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="250dp"
-        android:text="PT Section"
-        app:layout_constraintBottom_toTopOf="@+id/btnAdminSignOut"
+        android:layout_marginStart="1dp"
+
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="#4CAF50"
+        android:text="Home"
+        android:textColor="#FFF"
+        app:layout_constraintBottom_toTopOf="@+id/btnFetch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnListedExercises" />
+        app:layout_constraintTop_toBottomOf="@+id/btnGoToPT_Section" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAdminSignOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="#4CAF50"
+        android:gravity="center"
+        android:text="Sign out"
+        android:textColor="#FFF"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnFetch" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnGoToPT_Section"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="#4CAF50"
+        android:gravity="center"
+        android:text="PT Section"
+        android:textColor="#FFF"
+        app:layout_constraintBottom_toTopOf="@+id/btnHome"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvMainLogo" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gymapplication.R
+import com.example.gymapplication.activities.HomeActivity
 import com.example.gymapplication.activities.WaitingActivity
 import com.example.gymapplication.models.ExerciseModel
 import com.example.gymapplication.models.UserModel
@@ -53,7 +54,6 @@ class InsertionActivity : AppCompatActivity() {
             val exerciseId = dbRef.push().key!!
             val exercise = ExerciseModel(currentUserId,exerciseId, exerciseName)
             dbRef.child(exerciseId).setValue(exercise).addOnSuccessListener {
-                Toast.makeText(this, "Data is inserted Successfully", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -69,9 +69,9 @@ class InsertionActivity : AppCompatActivity() {
             val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
             val currentUserId = mAuth.currentUser?.uid
             //userTypesArray3 is regular user
-            val type= userTypesArray[0]
+            val type= userTypesArray[3]
             val PT= null
-            val status=userStatusArray[1]
+            val status=userStatusArray[0]
             val email = intent.getStringExtra("userEmail")
             val user = UserModel(currentUserId, usersName,email,status,PT,type)
             if (currentUserId == null) {
@@ -83,7 +83,7 @@ class InsertionActivity : AppCompatActivity() {
                 dbRef.child(currentUserId).setValue(user)
                     .addOnSuccessListener {
                         saveExercises()
-                        val intent = Intent(this, WaitingActivity::class.java)
+                        val intent = Intent(this, HomeActivity::class.java)
                         startActivity(intent)
 
                     }

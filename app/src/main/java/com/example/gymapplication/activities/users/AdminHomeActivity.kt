@@ -15,10 +15,8 @@ import com.google.firebase.database.FirebaseDatabase
 
 class AdminHomeActivity : AppCompatActivity() {
 
-    private lateinit var btnInsertData : Button
     private lateinit var btnFetchData: Button
     private lateinit var btnSignOut:Button
-    private lateinit var btnAddExercises:Button
     private lateinit var auth: FirebaseAuth
     private lateinit var btnHomePage:Button
     private lateinit var dbRef:DatabaseReference
@@ -33,11 +31,9 @@ class AdminHomeActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
-        btnInsertData= findViewById(R.id.btnInsert)
         btnFetchData=findViewById(R.id.btnFetch)
         btnSignOut=findViewById(R.id.btnAdminSignOut)
         btnHomePage=findViewById(R.id.btnHome)
-        btnAddExercises=findViewById(R.id.btnListedExercises)
         btnPT=findViewById(R.id.btnGoToPT_Section)
 
 
@@ -51,12 +47,6 @@ class AdminHomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-        btnInsertData.setOnClickListener{
-            val intent = Intent(this , InsertionActivity::class.java)
-            startActivity(intent)
-        }
-
         btnFetchData.setOnClickListener{
             val intent = Intent(this , FetchingActivity::class.java)
             startActivity(intent)
@@ -64,18 +54,6 @@ class AdminHomeActivity : AppCompatActivity() {
         btnHomePage.setOnClickListener{
             val intent = Intent(this , HomeActivity::class.java)
             startActivity(intent)
-        }
-        btnAddExercises.setOnClickListener{
-            val exercisesArray = resources.getStringArray(R.array.exercises_array)
-            val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
-            val currentUserId = mAuth.currentUser?.uid
-            exercisesArray.forEach { exerciseName ->
-                val exerciseId = dbRef.push().key!!
-                val exercise = ExerciseModel(currentUserId,exerciseId, exerciseName)
-                dbRef.child(exerciseId).setValue(exercise).addOnSuccessListener {
-                    Toast.makeText(this, "Data is inserted Successfully", Toast.LENGTH_LONG).show()
-                }
-            }
         }
 
     }

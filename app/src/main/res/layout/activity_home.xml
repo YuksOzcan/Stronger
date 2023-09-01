@@ -76,12 +76,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rvCalendar">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnGoToHome"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
-            android:text="Buton 1" />
+            android:padding="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            app:icon="@drawable/home"
+            android:background="@drawable/border"
+            app:iconSize="48dp"
+            app:iconTint="@null"
+            app:iconGravity="textStart"/>
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnGoToHistory"
@@ -89,7 +97,11 @@
             android:layout_height="48dp"
             android:layout_weight="1"
             android:contentDescription="@string/go_to_history"
-            app:icon="@drawable/history_dark" />
+            app:icon="@drawable/history_dark"
+            app:iconSize="48dp"
+            app:iconTint="@null"
+            />
+
 
         <Button
             android:id="@+id/btnGoToExercise"

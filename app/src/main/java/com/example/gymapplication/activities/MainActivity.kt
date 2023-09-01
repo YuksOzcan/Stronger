@@ -99,33 +99,33 @@ class MainActivity : AppCompatActivity() {
 
 
                         if (foundMatch) {
-                            val intent = Intent(this@MainActivity, HomeActivity::class.java)
-
                             val dbRef = FirebaseDatabase.getInstance().getReference("Users")
                             dbRef.orderByChild("userEmail").equalTo(account.email)
                                 .addListenerForSingleValueEvent(object : ValueEventListener {
                                     override fun onDataChange(snapshot: DataSnapshot) {
                                         if (snapshot.exists()) {
                                             for (userSnapshot in snapshot.children) {
-                                                val userStatusFromDatabase = userSnapshot.child("userStatus").getValue(String::class.java)
-                                                if (userStatusFromDatabase == "Passive") {
-                                                    val intent = Intent(this@MainActivity, WaitingActivity::class.java)
+                                                val userType = userSnapshot.child("userType").getValue(String::class.java)
+                                                val userTypesArray = resources.getStringArray(R.array.user_types)
+
+                                                if (userType == userTypesArray[0]) {
+                                                    val intent = Intent(this@MainActivity, AdminHomeActivity::class.java)
                                                     startActivity(intent)
                                                     break
-                                                } else if (userStatusFromDatabase == "Active") {
-                                                    //bu satır for fast access
-                                                    val intent = Intent(this@MainActivity,AdminHomeActivity::class.java)
+
+                                            }
+                                                else if(userType == userTypesArray[3]){
+                                                    val intent = Intent(this@MainActivity, HomeActivity::class.java)
                                                     startActivity(intent)
                                                     break
                                                 }
-                                            }
-                                        } else {
-                                            Toast.makeText(this@MainActivity, "User not found", Toast.LENGTH_LONG).show()
                                         }
                                     }
 
+                                       }
+
                                     override fun onCancelled(error: DatabaseError) {
-                                        Toast.makeText(this@MainActivity, "Error: ${error.message}", Toast.LENGTH_LONG).show()
+                                        TODO("Not yet implemented")
                                     }
                                 })
                         }else {
