@@ -12,6 +12,18 @@ import com.example.gymapplication.models.WorkoutModel
 class HistoryAdapter(private val workoutList : ArrayList<WorkoutModel>)
     : RecyclerView.Adapter<HistoryAdapter.ViewHolder>(){
 
+
+    interface OnWorkoutItemClickListener {
+        fun onWorkoutClick(workout: WorkoutModel)
+    }
+
+    private var workoutClickListener: OnWorkoutItemClickListener? = null
+
+    fun setOnWorkoutClickListener(listener: OnWorkoutItemClickListener) {
+        this.workoutClickListener = listener
+    }
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType:Int) : ViewHolder {
         val itemView=
             LayoutInflater.from(parent.context).inflate(R.layout.history_item,parent,false)
@@ -20,7 +32,13 @@ class HistoryAdapter(private val workoutList : ArrayList<WorkoutModel>)
     override fun onBindViewHolder(holder:ViewHolder, position: Int) {
         val workout = workoutList[position]
         holder.tvHistoryDate.text = workout.workoutDate
-        val innerAdapter = WorkoutAdapter(workoutList)
+        val innerAdapter = WorkoutHistoryAdapter(workoutList,workout.workoutDate)
+        innerAdapter.setOnItemClickListener(object : WorkoutHistoryAdapter.onItemClickListener {
+            override fun onItemClick(innerWorkout: WorkoutModel) {
+                workoutClickListener?.onWorkoutClick(innerWorkout)
+            }
+        })
+
         holder.rvWorkoutInner.layoutManager = LinearLayoutManager(holder.itemView.context)
 
         holder.rvWorkoutInner.adapter=innerAdapter
@@ -36,3 +54,4 @@ class HistoryAdapter(private val workoutList : ArrayList<WorkoutModel>)
 
     }
 }
+

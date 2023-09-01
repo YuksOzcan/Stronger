@@ -51,15 +51,21 @@ class WorkoutHistoryActivity:AppCompatActivity() {
                         if(workoutData != null) {
                             workoutList.add(workoutData)
                             val mAdapter = HistoryAdapter(workoutList)
+
+                            mAdapter.setOnWorkoutClickListener(object : HistoryAdapter.OnWorkoutItemClickListener {
+                                override fun onWorkoutClick(workout: WorkoutModel) {
+                                    val intent= Intent(this@WorkoutHistoryActivity,HistoryActivity::class.java)
+                                    intent.putExtra("workout",workout)
+                                    startActivity(intent)
+                                }
+                            })
                             rvHistory.adapter = mAdapter
 
-                            mAdapter
 
                         }
                     }
                 }
             }
-
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
