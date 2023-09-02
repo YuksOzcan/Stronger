@@ -1,58 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:padding="10dp"
+android:background="#000000">
+
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="20dp">
 
-    <EditText
-        android:id="@+id/etUserName"
+    <!-- User Name Section -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="User Name"
-        android:inputType="textPersonName" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
 
-    <EditText
-        android:id="@+id/etUserEmail"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User Name:"
+            android:textSize="18dp"
+            android:layout_gravity="center_vertical"
+            android:textColor="#FFFFFF"
+            android:layout_marginEnd="8dp"/>
+
+        <EditText
+            android:id="@+id/etUserName"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#808080"
+            android:hint="User Name"
+            android:layout_gravity="center_vertical"
+            android:inputType="textPersonName"/>
+    </LinearLayout>
+
+    <!-- User Email Section -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:hint="User Email" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User Email:"
+            android:textSize="18dp"
+            android:layout_gravity="center_vertical"
+            android:textColor="#FFFFFF"
+            android:layout_marginEnd="8dp"/>
 
-    <Spinner
-        android:id="@+id/sUserType"
+        <EditText
+            android:id="@+id/etUserEmail"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#808080"
+            android:hint="User Email"
+            android:layout_gravity="center_vertical"
+            android:inputType="textEmailAddress"/>
+    </LinearLayout>
+
+    <!-- User Type Section -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
 
-    <Spinner
-        android:id="@+id/sUserStatus"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User Type:"
+            android:textSize="18dp"
+            android:layout_gravity="center_vertical"
+            android:textColor="#FFFFFF"
+            android:layout_marginEnd="8dp"/>
+
+        <Spinner
+            android:id="@+id/sUserType"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="#424242"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <!-- User Status Section -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:ems="10"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
 
-    <Spinner
-        android:id="@+id/sPersonalTrainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:ems="10"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User Status:"
+            android:textSize="18dp"
+            android:layout_gravity="center_vertical"
+            android:textColor="#FFFFFF"
+            android:layout_marginEnd="8dp"/>
 
-    <Button
-        android:id="@+id/btnUpdateData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:enabled="false"
-        android:text="Update Data" />
+        <Spinner
+            android:id="@+id/sUserStatus"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="#424242"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Personal Trainer:"
+                android:textSize="18dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="8dp"/>
 
+            <Spinner
+                android:id="@+id/sPersonalTrainer"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="#424242"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnUpdateData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#4CAF50"
+            android:textColor="#FFF"
+            android:enabled="true"
+            android:text="Update User" />
+
+    </LinearLayout>
 </LinearLayout>

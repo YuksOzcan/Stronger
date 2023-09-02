@@ -108,13 +108,13 @@ class MainActivity : AppCompatActivity() {
                                                 val userType = userSnapshot.child("userType").getValue(String::class.java)
                                                 val userTypesArray = resources.getStringArray(R.array.user_types)
 
-                                                if (userType == userTypesArray[0]) {
+                                                if (userType == userTypesArray[0] ||userType == userTypesArray[1] || userType == userTypesArray[2]) {
                                                     val intent = Intent(this@MainActivity, AdminHomeActivity::class.java)
                                                     startActivity(intent)
                                                     break
 
                                             }
-                                                else if(userType == userTypesArray[3]){
+                                                else if(userType == userTypesArray[3] || userType == userTypesArray[4]){
                                                     val intent = Intent(this@MainActivity, HomeActivity::class.java)
                                                     startActivity(intent)
                                                     break

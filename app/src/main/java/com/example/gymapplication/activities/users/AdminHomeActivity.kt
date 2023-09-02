@@ -2,16 +2,19 @@ package com.example.gymapplication.activities.users
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gymapplication.R
 import com.example.gymapplication.activities.HomeActivity
 import com.example.gymapplication.activities.MainActivity
-import com.example.gymapplication.models.ExerciseModel
+import com.example.gymapplication.models.UserModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class AdminHomeActivity : AppCompatActivity() {
 
@@ -35,6 +38,7 @@ class AdminHomeActivity : AppCompatActivity() {
         btnSignOut=findViewById(R.id.btnAdminSignOut)
         btnHomePage=findViewById(R.id.btnHome)
         btnPT=findViewById(R.id.btnGoToPT_Section)
+        checkUser()
 
 
         btnSignOut.setOnClickListener{
@@ -56,5 +60,33 @@ class AdminHomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+    }
+    private fun checkUser() {
+        val customUrl =
+            "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
+        val dbRef = FirebaseDatabase.getInstance(customUrl).getReference("Users")
+        val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+        val currentUserId = mAuth.currentUser?.uid
+        val userTypesArray = resources.getStringArray(R.array.user_types)
+        dbRef.orderByChild("userId").equalTo(currentUserId).addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (userSnapshot in dataSnapshot.children) {
+                    val user = userSnapshot.getValue(UserModel::class.java)
+                    if (user?.userType == userTypesArray[1]) {
+                        btnPT.visibility=View.GONE
+                    }
+                    else if (user?.userType == userTypesArray[2]){
+                        btnPT.visibility=View.VISIBLE
+                        btnFetchData.visibility=View.GONE
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        }
+        )
     }
 }
