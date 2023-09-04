@@ -173,10 +173,9 @@ btnCreateRoutine = findViewById(R.id.btnCreateRoutine)
     }
 
 
-    private fun setSelectedWorkout(date: String, position: Int) {
+    private fun setSelectedWorkout(date: String, position: Int , isProfessional: Boolean) {
         val customUrl =
             "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
-        dbRef = FirebaseDatabase.getInstance(customUrl).getReference("Workouts")
         dbRef = FirebaseDatabase.getInstance(customUrl).getReference("SelectedWorkouts")
         val client = intent.getSerializableExtra("client") as? UserModel
         val clientId = client?.userId.toString()
@@ -184,11 +183,21 @@ btnCreateRoutine = findViewById(R.id.btnCreateRoutine)
         val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
         val currentUserId = mAuth.currentUser?.uid
         var workout = WorkoutModel()
-        if (!boolAssing) {
-            workout = WorkoutModel(
-                workoutID, workoutList[position].workoutName,
-                workoutList[position].exercisesList, date + currentUserId,currentUserId,date)
 
+        if (!boolAssing) {
+            if(isProfessional){
+                workout = WorkoutModel(
+                    workoutID, professionalWorkoutList[position].workoutName,
+                    professionalWorkoutList[position].exercisesList, date + currentUserId, currentUserId, date
+                )
+            }
+            else {
+                workout = WorkoutModel(
+                    workoutID, workoutList[position].workoutName,
+                    workoutList[position].exercisesList, date + currentUserId, currentUserId, date
+                )
+
+            }
         } else {
             workout = WorkoutModel(
                 workoutID, workoutList[position].workoutName,
@@ -198,8 +207,8 @@ btnCreateRoutine = findViewById(R.id.btnCreateRoutine)
 
         dbRef.child(workoutID).setValue(workout)
         val intent = Intent(this@SavedWorkoutActivity, WorkoutActivity::class.java)
-        intent.putExtra("WorkoutName", workoutList[position].workoutName)
-        intent.putExtra("ExercisesList", workoutList[position].exercisesList)
+        intent.putExtra("WorkoutName", workout.workoutName)
+        intent.putExtra("ExercisesList", workout.exercisesList)
         intent.putExtra("WorkoutList", workoutID)
         intent.putExtra("Date", date)
         startActivity(intent)
@@ -228,14 +237,8 @@ btnCreateRoutine = findViewById(R.id.btnCreateRoutine)
                             WorkoutAdapter.onItemClickListener {
                             override fun onItemClick(position: Int) {
 
-                                Toast.makeText(
-                                    this@SavedWorkoutActivity,
-                                    "You clicked on ${workoutList[position].workoutName}",
-                                    Toast.LENGTH_LONG
-                                ).show()
-
                                 if (!ptBooleanShare) {
-                                    setSelectedWorkout(date, position)
+                                    setSelectedWorkout(date, position,false)
                                 }
                                 else{
                                     shareWorkout(position)
@@ -270,7 +273,7 @@ btnCreateRoutine = findViewById(R.id.btnCreateRoutine)
 
 
                                 if (!ptBooleanShare) {
-                                    setSelectedWorkout(date, position)
+                                    setSelectedWorkout(date, position,true)
                                 }
                                 else{
                                     shareWorkout(position)

@@ -203,18 +203,13 @@ class UserDetailsActivity :AppCompatActivity() {
         val userStatusArray = resources.getStringArray(R.array.user_status)
         val userTypesArray = resources.getStringArray(R.array.user_types)
         val sUserType = mDialogView.findViewById<Spinner>(R.id.sUserType)
-        val firstElementofType = tvUserType.text.toString()
-        val modifiedUserTypesArray = arrayOf(firstElementofType) + userTypesArray
-        val typeAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, modifiedUserTypesArray)
+        val typeAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, userTypesArray)
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         sUserType.adapter = typeAdapter
         val trainerList = intent.getSerializableExtra("trainerList") as? ArrayList<UserModel> ?: ArrayList()
         trainerList.add(0, UserModel(userName = ""))
-        val firstElementofStatus = tvUserStatus.text.toString()
-        val modifiedUserStatusArray = arrayOf(firstElementofStatus) + userStatusArray
-
         val sUserStatus = mDialogView.findViewById<Spinner>(R.id.sUserStatus)
-        val statusAdapter = ArrayAdapter(this,android.R.layout.simple_spinner_item,modifiedUserStatusArray)
+        val statusAdapter = ArrayAdapter(this,android.R.layout.simple_spinner_item,userStatusArray)
         statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         sUserStatus.adapter=statusAdapter
 

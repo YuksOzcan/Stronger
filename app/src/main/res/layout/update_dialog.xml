@@ -12,7 +12,6 @@ android:background="#000000">
     android:orientation="vertical"
     android:padding="20dp">
 
-    <!-- User Name Section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +41,6 @@ android:background="#000000">
             android:inputType="textPersonName"/>
     </LinearLayout>
 
-    <!-- User Email Section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -71,8 +69,6 @@ android:background="#000000">
             android:layout_gravity="center_vertical"
             android:inputType="textEmailAddress"/>
     </LinearLayout>
-
-    <!-- User Type Section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -99,7 +95,6 @@ android:background="#000000">
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
 
-    <!-- User Status Section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
