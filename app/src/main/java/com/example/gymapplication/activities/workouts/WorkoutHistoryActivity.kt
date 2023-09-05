@@ -2,9 +2,12 @@ package com.example.gymapplication.activities.workouts
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.gymapplication.AuthHelper
 import com.example.gymapplication.R
 import com.example.gymapplication.adapters.HistoryAdapter
 import com.example.gymapplication.adapters.WorkoutAdapter
@@ -23,6 +26,12 @@ class WorkoutHistoryActivity:AppCompatActivity() {
     private lateinit var rvHistory:RecyclerView
     private lateinit var dbRef: DatabaseReference
     private lateinit var workoutList: ArrayList<WorkoutModel>
+    private lateinit var btnGoHome: ImageButton
+    private lateinit var btnGoExercise: ImageButton
+    private lateinit var btnGoProfile: ImageButton
+    private lateinit var btnGoSignOut: ImageButton
+    private lateinit var btnGoHistory: ImageButton
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +42,30 @@ class WorkoutHistoryActivity:AppCompatActivity() {
         rvHistory.setHasFixedSize(true)
         getWorkouts()
         workoutList= arrayListOf()
+        btnGoExercise=findViewById(R.id.btnGoToExercise)
+        btnGoHome=findViewById(R.id.btnGoToHome)
+        btnGoProfile=findViewById(R.id.btnGoToProfile)
+        btnGoSignOut=findViewById(R.id.btnGoToSignOut)
+        btnGoHistory=findViewById(R.id.btnGoToHistory)
+        auth = FirebaseAuth.getInstance()
+
+
+        btnGoExercise.setOnClickListener{
+            AuthHelper.exercise(this)
+        }
+
+        btnGoSignOut.setOnClickListener {
+            AuthHelper.signOut(this,auth)
+        }
+        btnGoHome.setOnClickListener {
+            AuthHelper.home(this)
+        }
+        btnGoProfile.setOnClickListener {
+            AuthHelper.profile(this)
+        }
+        btnGoHistory.setOnClickListener {
+            AuthHelper.history(this)
+        }
     }
 
     private fun getWorkouts() {

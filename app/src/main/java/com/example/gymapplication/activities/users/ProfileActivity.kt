@@ -2,8 +2,10 @@ package com.example.gymapplication.activities.users
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.gymapplication.AuthHelper
 import com.example.gymapplication.R
 import com.example.gymapplication.models.UserModel
 import com.google.firebase.auth.FirebaseAuth
@@ -20,12 +22,36 @@ class ProfileActivity:AppCompatActivity() {
     private lateinit var tvStatus:TextView
     private lateinit var tvPt:TextView
     private lateinit var tvType: TextView
+    private lateinit var btnGoHome: ImageButton
+    private lateinit var btnGoExercise: ImageButton
+    private lateinit var btnGoProfile: ImageButton
+    private lateinit var btnGoSignOut: ImageButton
+    private lateinit var btnGoHistory: ImageButton
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         init()
         getUser()
+
+
+        btnGoExercise.setOnClickListener{
+            AuthHelper.exercise(this)
+        }
+
+        btnGoSignOut.setOnClickListener {
+            AuthHelper.signOut(this,auth)
+        }
+        btnGoHome.setOnClickListener {
+            AuthHelper.home(this)
+        }
+        btnGoProfile.setOnClickListener {
+            AuthHelper.profile(this)
+        }
+        btnGoHistory.setOnClickListener {
+            AuthHelper.history(this)
+        }
     }
     private fun init(){
         tvProfile=findViewById(R.id.tvProfile)
@@ -34,6 +60,12 @@ class ProfileActivity:AppCompatActivity() {
         tvEmail=findViewById(R.id.tvUserEmail)
         tvType=findViewById(R.id.tvUserType)
         tvStatus=findViewById(R.id.tvUserStatus)
+        btnGoExercise=findViewById(R.id.btnGoToExercise)
+        btnGoHome=findViewById(R.id.btnGoToHome)
+        btnGoProfile=findViewById(R.id.btnGoToProfile)
+        btnGoSignOut=findViewById(R.id.btnGoToSignOut)
+        btnGoHistory=findViewById(R.id.btnGoToHistory)
+        auth = FirebaseAuth.getInstance()
     }
 
     private fun getUser(){

@@ -66,6 +66,7 @@
         app:layout_constraintVertical_bias="0.812" />
 
 
+
     <LinearLayout
         android:layout_width="436dp"
         android:layout_height="78dp"
@@ -73,46 +74,90 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="16dp"
+        android:background="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAddExercise">
 
-        <Button
-            android:id="@+id/btnGoToHomeFromExercise"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:text="Buton 1" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnGoToHistoryFromExercise"
+        <ImageButton
+            android:id="@+id/btnGoToHome"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="70dp"
             android:layout_weight="1"
-            android:contentDescription="@string/go_to_history"
-            app:icon="@drawable/history_dark" />
+            android:background="@android:color/black"
+            android:src="@drawable/home"
+            android:scaleType="fitXY"
+            android:padding="0dp"
+            android:layout_margin="0dp"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            />
 
-        <Button
-            android:id="@+id/btnGoToExerciseFromExercise"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:text="Buton 3" />
 
-        <Button
-            android:id="@+id/btnGoToProfileFromExercise"
+        <ImageButton
+            android:id="@+id/btnGoToHistory"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="70dp"
             android:layout_weight="1"
-            android:text="Buton 4" />
+            android:background="@android:color/black"
+            android:src="@drawable/history"
+            android:scaleType="fitXY"
+            android:padding="0dp"
+            android:layout_margin="0dp"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:insetTop="0dp"
+            />
+        <ImageButton
+            android:id="@+id/btnGoToExercise"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:background="@android:color/black"
+            android:src="@drawable/exercise"
+            android:scaleType="fitXY"
+            android:padding="0dp"
+            android:layout_margin="0dp"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:insetTop="0dp"
+            />
 
-        <Button
-            android:id="@+id/btnGoToSignOutFromExercise"
+        <ImageButton
+            android:id="@+id/btnGoToProfile"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="70dp"
             android:layout_weight="1"
-            android:text="Buton 5" />
+            android:background="@android:color/black"
+            android:src="@drawable/profile"
+            android:scaleType="fitXY"
+            android:padding="0dp"
+            android:layout_margin="0dp"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:insetTop="0dp"
+            />
+
+        <ImageButton
+            android:id="@+id/btnGoToSignOut"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:background="@android:color/black"
+            android:src="@drawable/signout"
+            android:scaleType="fitXY"
+            android:padding="0dp"
+            android:layout_margin="0dp"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:insetTop="0dp"
+            />
+
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

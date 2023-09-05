@@ -3,6 +3,7 @@ package com.example.gymapplication.activities.workouts
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -28,11 +29,11 @@ class AddExercisesActivity : AppCompatActivity(){
     private lateinit var rvExercises:RecyclerView
     private lateinit var etExercise:TextView
     private lateinit var btnAddExercise:Button
-    private lateinit var btnGoHome:Button
-    private lateinit var btnGoExercise:Button
-    private lateinit var btnGoProfile:Button
-    private lateinit var btnGoSignOut:Button
-    private lateinit var btnGoHistory:Button
+    private lateinit var btnGoHome:ImageButton
+    private lateinit var btnGoExercise:ImageButton
+    private lateinit var btnGoProfile:ImageButton
+    private lateinit var btnGoSignOut:ImageButton
+    private lateinit var btnGoHistory:ImageButton
     private lateinit var auth: FirebaseAuth
     private lateinit var exerciseList: ArrayList<ExerciseModel>
 
@@ -46,20 +47,23 @@ class AddExercisesActivity : AppCompatActivity(){
         init()
         getExercises()
 
-        btnGoSignOut.setOnClickListener{
 
-            AuthHelper.signOut(this,auth)
-        }
-        btnGoExercise.setOnClickListener {
+        btnGoExercise.setOnClickListener{
             AuthHelper.exercise(this)
+        }
+
+        btnGoSignOut.setOnClickListener {
+            AuthHelper.signOut(this,auth)
         }
         btnGoHome.setOnClickListener {
             AuthHelper.home(this)
         }
-        btnAddExercise.setOnClickListener {
-            saveExercises()
+        btnGoProfile.setOnClickListener {
+            AuthHelper.profile(this)
         }
-
+        btnGoHistory.setOnClickListener {
+            AuthHelper.history(this)
+        }
     }
     private fun init(){
         auth = FirebaseAuth.getInstance()
@@ -67,11 +71,11 @@ class AddExercisesActivity : AppCompatActivity(){
         etExercise=findViewById(R.id.etNewExerciseName)
         tvExercise=findViewById(R.id.tvExercises)
         rvExercises=findViewById(R.id.rvAllExercises)
-        btnGoExercise=findViewById(R.id.btnGoToExerciseFromExercise)
-        btnGoHome=findViewById(R.id.btnGoToHomeFromExercise)
-        btnGoProfile=findViewById(R.id.btnGoToProfileFromExercise)
-        btnGoSignOut=findViewById(R.id.btnGoToSignOutFromExercise)
-        btnGoHistory=findViewById(R.id.btnGoToHistoryFromExercise)
+        btnGoExercise=findViewById(R.id.btnGoToExercise)
+        btnGoHome=findViewById(R.id.btnGoToHome)
+        btnGoProfile=findViewById(R.id.btnGoToProfile)
+        btnGoSignOut=findViewById(R.id.btnGoToSignOut)
+        btnGoHistory=findViewById(R.id.btnGoToHistory)
         btnAddExercise=findViewById(R.id.btnAddExercise)
         rvExercises.layoutManager=LinearLayoutManager(this)
         rvExercises.setHasFixedSize(true)

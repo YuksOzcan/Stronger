@@ -40,7 +40,6 @@ class UserDetailsActivity :AppCompatActivity() {
     private lateinit var tvUserType: TextView
     private lateinit var btnAssign:Button
     private lateinit var btnUpdate: Button
-    private lateinit var btnDelete: Button
     private lateinit var rvWorkouts:RecyclerView
     private lateinit var dbRef:DatabaseReference
     private lateinit var workoutList:ArrayList<WorkoutModel>
@@ -66,10 +65,6 @@ class UserDetailsActivity :AppCompatActivity() {
                 openUpdateDialog(userId,userName)
             }
         }
-        btnDelete.setOnClickListener{
-            deleteRecord(intent.getStringExtra("userId").toString(),
-            )
-        }
         btnAssign.setOnClickListener{
             val user = intent.getSerializableExtra("user") as? UserModel
             val intent = Intent(this, SavedWorkoutActivity::class.java)
@@ -93,7 +88,6 @@ class UserDetailsActivity :AppCompatActivity() {
                 for (userSnapshot in dataSnapshot.children) {
                     val user = userSnapshot.getValue(UserModel::class.java)
                     if (user?.userType == "PT") {
-                        btnDelete.visibility = View.GONE
                         btnUpdate.visibility = View.GONE
                     }
                 }
@@ -106,25 +100,6 @@ class UserDetailsActivity :AppCompatActivity() {
         )
     }
 
-    private fun deleteRecord(id:String){
-
-        val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
-        val dbref = FirebaseDatabase.getInstance(customUrl).getReference("Users").child(id)
-        val mTask = dbref.removeValue()
-
-        mTask.addOnSuccessListener {
-            Toast.makeText(this, "User Deleted Successfully", Toast.LENGTH_LONG).show()
-            val intent = Intent(this, FetchingActivity::class.java)
-            finish()
-            startActivity(intent)
-            }
-            .addOnFailureListener{error->
-                Toast.makeText(this, "Error $error.message", Toast.LENGTH_LONG).show()
-
-            }
-
-    }
-
     private fun initView() {
         tvUserId = findViewById(R.id.tvUserId)
         tvUserName = findViewById(R.id.tvUserName)
@@ -133,7 +108,6 @@ class UserDetailsActivity :AppCompatActivity() {
         tvUserPT = findViewById(R.id.tvUserPT)
         tvUserType = findViewById(R.id.tvUserType)
         btnUpdate = findViewById(R.id.btnUpdate)
-        btnDelete = findViewById(R.id.btnDelete)
         btnAssign = findViewById(R.id.btnAssignWorkout)
         rvWorkouts=findViewById(R.id.rvPastWorkouts)
         rvWorkouts.layoutManager=LinearLayoutManager(this)

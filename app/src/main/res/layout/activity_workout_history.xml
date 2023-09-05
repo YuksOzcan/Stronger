@@ -10,9 +10,104 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvHistory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/history_item"/>
+        android:layout_width="407dp"
+        android:layout_height="611dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="5dp"
+        tools:listitem="@layout/history_item" />
+
+    <LinearLayout
+        android:layout_width="436dp"
+        android:layout_height="78dp"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvHistory">
+
+
+        <ImageButton
+            android:id="@+id/btnGoToHome"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:background="@android:color/black"
+            android:src="@drawable/home"
+            android:scaleType="fitXY"
+            android:padding="0dp"
+            android:layout_margin="0dp"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            />
+
+
+        <ImageButton
+            android:id="@+id/btnGoToHistory"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:background="@android:color/black"
+            android:src="@drawable/history"
+            android:scaleType="fitXY"
+            android:padding="0dp"
+            android:layout_margin="0dp"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:insetTop="0dp"
+            />
+        <ImageButton
+            android:id="@+id/btnGoToExercise"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:background="@android:color/black"
+            android:src="@drawable/exercise"
+            android:scaleType="fitXY"
+            android:padding="0dp"
+            android:layout_margin="0dp"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:insetTop="0dp"
+            />
+
+        <ImageButton
+            android:id="@+id/btnGoToProfile"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:background="@android:color/black"
+            android:src="@drawable/profile"
+            android:scaleType="fitXY"
+            android:padding="0dp"
+            android:layout_margin="0dp"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:insetTop="0dp"
+            />
+
+        <ImageButton
+            android:id="@+id/btnGoToSignOut"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:background="@android:color/black"
+            android:src="@drawable/signout"
+            android:scaleType="fitXY"
+            android:padding="0dp"
+            android:layout_margin="0dp"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:insetTop="0dp"
+            />
+
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

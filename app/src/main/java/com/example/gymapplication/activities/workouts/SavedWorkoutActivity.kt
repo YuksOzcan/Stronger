@@ -49,12 +49,14 @@ class SavedWorkoutActivity : AppCompatActivity() {
 
         if (date != null) {
             getWorkouts(date!!)
+            getProfessionalWorkouts(date!!)
             checkUser(date!!)
 
         } else {
             if (savedDate != null) {
                 date = savedDate
                 getWorkouts(date!!)
+                getProfessionalWorkouts(date!!)
                 checkUser(date!!)
 
                 with(sharedPref.edit()) {
@@ -66,7 +68,6 @@ class SavedWorkoutActivity : AppCompatActivity() {
                     openCalendarDialog()
                 } else {
                     getWorkouts("Share a Workout")
-
 
 //belki buraya         getProfessionalWorkoouts(date) koyman gerekebilir
                 }
@@ -100,15 +101,26 @@ btnCreateRoutine = findViewById(R.id.btnCreateRoutine)
 
 
     }
-    private fun shareWorkout(position: Int){
+    private fun shareWorkout(position: Int,isPro:Boolean){
         val customUrl =
             "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
         dbRef = FirebaseDatabase.getInstance(customUrl).getReference("ProfessionalWorkouts")
         val workoutID = dbRef.push().key!!
-        val workout = WorkoutModel(
+        if(!isPro) {
+            val workout = WorkoutModel(
                 workoutID, workoutList[position].workoutName,
-                workoutList[position].exercisesList)
-        dbRef.child(workoutID).setValue(workout)
+                workoutList[position].exercisesList
+            )
+            dbRef.child(workoutID).setValue(workout)
+        }
+        else{
+            val workout = WorkoutModel(
+                workoutID, professionalWorkoutList[position].workoutName,
+                workoutList[position].exercisesList
+            )
+            dbRef.child(workoutID).setValue(workout)
+
+        }
         val intent = Intent(this@SavedWorkoutActivity, PersonalTrainerActivity::class.java)
         startActivity(intent)
     }
@@ -124,9 +136,12 @@ btnCreateRoutine = findViewById(R.id.btnCreateRoutine)
                 for (userSnapshot in dataSnapshot.children) {
                     val user = userSnapshot.getValue(UserModel::class.java)
                     if (user?.userStatus == "Active") {
-                        getProfessionalWorkoouts(date)
+                        getProfessionalWorkouts(date)
+                        tvProfessional.visibility=View.VISIBLE
                     }
-                    tvProfessional.visibility=View.GONE
+                    else {
+                        tvProfessional.visibility = View.GONE
+                    }
                 }
             }
 
@@ -151,7 +166,8 @@ btnCreateRoutine = findViewById(R.id.btnCreateRoutine)
                 "July", "August", "September", "October", "November", "December"
             )
 
-            selectedDate = "$dayOfMonth ${months[month]} $year"
+            val formattedDay = String.format("%02d", dayOfMonth)
+            selectedDate = "$formattedDay ${months[month]} $year"
             Toast.makeText(this, selectedDate, Toast.LENGTH_SHORT).show()
         }
 
@@ -162,6 +178,7 @@ btnCreateRoutine = findViewById(R.id.btnCreateRoutine)
                 dialog.dismiss()
                 if (ptBooleanReceived) {
                     getWorkouts(selectedDate!!)
+                    getProfessionalWorkouts(selectedDate!!)
                 }
             } else {
                 Toast.makeText(this, "Please choose a Date", Toast.LENGTH_SHORT).show()
@@ -199,10 +216,19 @@ btnCreateRoutine = findViewById(R.id.btnCreateRoutine)
 
             }
         } else {
-            workout = WorkoutModel(
-                workoutID, workoutList[position].workoutName,
-                workoutList[position].exercisesList, date + clientId,clientId,date)
+            if(isProfessional){
+                workout = WorkoutModel(
+                    workoutID, professionalWorkoutList[position].workoutName,
+                    professionalWorkoutList[position].exercisesList, date + clientId, clientId, date
+                )
+            }
+            else {
+                workout = WorkoutModel(
+                    workoutID, workoutList[position].workoutName,
+                    workoutList[position].exercisesList, date + clientId, clientId, date
+                )
 
+            }
         }
 
         dbRef.child(workoutID).setValue(workout)
@@ -216,7 +242,6 @@ btnCreateRoutine = findViewById(R.id.btnCreateRoutine)
 
 
     private fun getWorkouts(date: String) {
-       // getProfessionalWorkoouts(date)
         val customUrl =
             "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
         val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -241,7 +266,7 @@ btnCreateRoutine = findViewById(R.id.btnCreateRoutine)
                                     setSelectedWorkout(date, position,false)
                                 }
                                 else{
-                                    shareWorkout(position)
+                                    shareWorkout(position,false)
                                 }
                             }
                         })
@@ -254,7 +279,7 @@ btnCreateRoutine = findViewById(R.id.btnCreateRoutine)
             }
         })
     }
-    private fun getProfessionalWorkoouts(date: String) {
+    private fun getProfessionalWorkouts(date: String) {
         val customUrl =
             "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
         dbRef = FirebaseDatabase.getInstance(customUrl).getReference("ProfessionalWorkouts")
@@ -276,7 +301,7 @@ btnCreateRoutine = findViewById(R.id.btnCreateRoutine)
                                     setSelectedWorkout(date, position,true)
                                 }
                                 else{
-                                    shareWorkout(position)
+                                    shareWorkout(position,true)
                                 }
                             }
                         })

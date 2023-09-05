@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -44,11 +45,11 @@ class HomeActivity : AppCompatActivity() , CalendarAdapter.onItemClickListener {
     private lateinit var dbRef:DatabaseReference
     private lateinit var rvOuter:RecyclerView
     private lateinit var workoutList:ArrayList<WorkoutModel>
-    private lateinit var btnGoHistory:Button
-    private lateinit var btnGoHome:Button
-    private lateinit var btnGoExercise:Button
-    private lateinit var btnGoSignOut:Button
-    private lateinit var btnGoProfile:Button
+    private lateinit var btnGoHistory:ImageButton
+    private lateinit var btnGoHome:ImageButton
+    private lateinit var btnGoExercise:ImageButton
+    private lateinit var btnGoSignOut:ImageButton
+    private lateinit var btnGoProfile:ImageButton
     private lateinit var auth: FirebaseAuth
 
 
