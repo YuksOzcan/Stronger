@@ -9,10 +9,10 @@ import com.example.gymapplication.R
 import com.example.gymapplication.models.WorkoutModel
 
 class WorkoutHistoryAdapter (   private val workoutList: ArrayList<WorkoutModel>,
-                                private val dateFilter: String?
+                                private val IdFilter: String?
 ) : RecyclerView.Adapter<WorkoutHistoryAdapter.ViewHolder>(){
 
-    private val filteredWorkoutList = workoutList.filter { it.workoutDate == dateFilter }
+    private val filteredWorkoutList = workoutList.filter { it.workoutID == IdFilter }
 
     private var mListener : onItemClickListener?= null
 

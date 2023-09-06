@@ -22,7 +22,6 @@ import com.google.firebase.database.ValueEventListener
 class HistoryActivity:AppCompatActivity() {
 
     private lateinit var tvDate: TextView
-    private lateinit var btnPrevious:Button
     private lateinit var rvWorkout:RecyclerView
     private lateinit var dbRef: DatabaseReference
     private lateinit var workoutList:ArrayList<WorkoutModel>
@@ -33,7 +32,6 @@ class HistoryActivity:AppCompatActivity() {
         setContentView(R.layout.activity_history)
         val workout = intent.getSerializableExtra("workout") as? WorkoutModel
         tvDate= findViewById(R.id.tvPastDate)
-        btnPrevious=findViewById(R.id.btnPastWorkoutPrevious)
         rvWorkout=findViewById(R.id.rvFinishedWorkout)
         workoutList= arrayListOf()
         rvWorkout.layoutManager=LinearLayoutManager(this)
@@ -43,29 +41,24 @@ class HistoryActivity:AppCompatActivity() {
 
         getWorkouts()
 
-        btnPrevious.setOnClickListener{
-            val intent= Intent(this,UserDetailsActivity::class.java)
-            intent.putExtra("user",user)
-            startActivity(intent)
-
-        }
     }
     private fun getWorkouts() {
         val customUrl = "https://gymappfirebase-9f06f-default-rtdb.europe-west1.firebasedatabase.app"
         dbRef = FirebaseDatabase.getInstance(customUrl).getReference("SelectedWorkouts")
         val workoutRoutine = intent.getSerializableExtra("workout") as? WorkoutModel
-        val  query = dbRef.orderByChild("combinedKey").equalTo(workoutRoutine?.combinedKey)
-        workoutList.clear()
-        rvWorkout.adapter=null
-        query.addValueEventListener(object : ValueEventListener {
+        val  query = dbRef.orderByChild("workoutID").equalTo(workoutRoutine?.workoutID)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                workoutList.clear()
                 if (dataSnapshot.exists()) {
                     for (workoutSnapshot in dataSnapshot.children) {
+                        Log.d("Firebase", dataSnapshot.toString())
                         val workout = workoutSnapshot.getValue(WorkoutModel::class.java)
                         if (workout != null) {
                             workoutList.add(workout!!)
                             val mAdapter = NestedWorkoutAdapter(workoutList)
                             rvWorkout.adapter=mAdapter
+                            mAdapter.notifyDataSetChanged()
 
                         }
                     }

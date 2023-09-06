@@ -46,19 +46,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
     private fun signInGoogle(){
         val signInIntent = googleSignInClient.signInIntent
         launcher.launch(signInIntent)
 
     }
-
     private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         result->(result.resultCode == Activity.RESULT_OK)
-
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             handleResults(task)
-
     }
 
     private fun handleResults(task: Task<GoogleSignInAccount>) {
@@ -91,13 +87,6 @@ class MainActivity : AppCompatActivity() {
                                 break
                             }
                         }
-                        // burayı admin activity yapıcakasın
-
-
-
-
-
-
                         if (foundMatch) {
                             val dbRef = FirebaseDatabase.getInstance().getReference("Users")
                             dbRef.orderByChild("userEmail").equalTo(account.email)

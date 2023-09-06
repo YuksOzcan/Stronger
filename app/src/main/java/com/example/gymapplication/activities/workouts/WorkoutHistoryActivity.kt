@@ -33,6 +33,7 @@ class WorkoutHistoryActivity:AppCompatActivity() {
     private lateinit var btnGoHistory: ImageButton
     private lateinit var auth: FirebaseAuth
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_workout_history)

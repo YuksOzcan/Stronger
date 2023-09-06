@@ -75,24 +75,5 @@
             })
         }
 
-        private fun getExercisesData() {
-            val exercisesArray = resources.getStringArray(R.array.exercises_array)
-            exerciseList.clear()
-            exercisesArray.forEachIndexed { index, exercise ->
-                exerciseList.add(ExerciseModel(index.toString(), exercise))
-
-            }
-
-            val mAdapter = ExerciseAdapter(exerciseList)
-            rvExercises.adapter=mAdapter
-
-            mAdapter.setOnItemClickListener(object : ExerciseAdapter.onItemClickListener {
-                override fun onItemClick(position: Int) {
-                    selectedExercisesList.add(exerciseList[position])
-                    Toast.makeText(this@ChooseExercisesActivity,"You clicked on ${exerciseList[position].exerciseName}",Toast.LENGTH_LONG).show()
-
-                }
-            })
-        }
     }
 

@@ -32,7 +32,7 @@ class HistoryAdapter(private val workoutList : ArrayList<WorkoutModel>)
     override fun onBindViewHolder(holder:ViewHolder, position: Int) {
         val workout = workoutList[position]
         holder.tvHistoryDate.text = workout.workoutDate
-        val innerAdapter = WorkoutHistoryAdapter(workoutList,workout.workoutDate)
+        val innerAdapter = WorkoutHistoryAdapter(workoutList,workout.workoutID)
         innerAdapter.setOnItemClickListener(object : WorkoutHistoryAdapter.onItemClickListener {
             override fun onItemClick(innerWorkout: WorkoutModel) {
                 workoutClickListener?.onWorkoutClick(innerWorkout)
