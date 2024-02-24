@@ -14,4 +14,4 @@ Possible use cases
 2-Remote Personal Training: Personal trainers can use the app to manage clients remotely, providing them with personalized workout plans, monitoring their progress, and making real-time adjustments to their routines.
 
 3-Gym Membership Enhancement: Gyms can offer the app as an added value to their memberships, allowing members to track their workouts, schedule sessions, and receive tailored fitness programs, enhancing their overall gym experience.
-![image](https://github.com/YuksOzcan/Stronger/assets/151582352/3442ca8b-2515-434f-8be3-4c820c1ad35d)
+
